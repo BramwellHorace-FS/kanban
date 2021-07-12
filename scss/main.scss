@@ -1,1 +1,20 @@
-// main.scss
+// Utilities
+@import 'utils/variables';
+@import 'utils/mixins';
+@import 'utils/placeholder';
+
+// Base
+@import 'base/reset';
+@import 'base/typography';
+
+// Layout
+@import 'layout/header';
+@import 'layout/grid';
+
+// Component
+@import 'components/buttons';
+
+// Blocks 
+@import 'blocks/sections';
+@import 'blocks/articles';
+
