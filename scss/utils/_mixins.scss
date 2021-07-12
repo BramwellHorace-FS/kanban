@@ -12,3 +12,9 @@
     border-bottom:$bottomBorder;
     border-left: $leftBorder;
 }
+
+@mixin btn-theme($color, $icon){
+    background-color: $color;
+    background-image: $icon;
+    @extend %btn;
+}

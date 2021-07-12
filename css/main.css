@@ -5,6 +5,23 @@
   margin-left: auto;
   margin-right: auto; }
 
+button {
+  color: #fff;
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-size: 1.7rem;
+  text-indent: -999999px;
+  font-weight: 700;
+  border: 0;
+  height: 3.5rem;
+  width: 3.5rem;
+  padding: 1.8rem;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem; }
+
 body, nav, section, footer, article, h1, h2, h3, p, a, ul, li, dt, dd, input, textarea, button, fieldset {
   margin: 0;
   padding: 0;
@@ -110,23 +127,8 @@ main {
       column-gap: 5rem; } }
 
 button {
-  background: #121212;
-  color: #fff;
-  background-image: url("../images/add.png");
-  background-size: 50%;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-size: 1.7rem;
-  text-indent: -999999px;
-  font-weight: 700;
-  border: 0;
-  height: 3rem;
-  width: 3rem;
-  padding: 1.8rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem; }
+  background-color: #121212;
+  background-image: url("../images/add.png"); }
   button:hover {
     background-color: rgba(18, 18, 18, 0.5);
     cursor: pointer; }
