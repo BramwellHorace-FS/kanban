@@ -1,23 +1,6 @@
 # DWS2 Kanban Board
+This month, I am working on a new Kanban board application. Throughout this month, I will be working on specific parts  of the application until it is complete with some core functionalities. 
 
-Welcome to the starter repo for your Kanban board application 🚀!
+## Milestone 1 
 
-You'll want to customize this readme file a bit to contain information about the project, but for now here is what you need to know to get set up:
-
-## Installation
-
-Make sure you have the following:
-
-- Node (v12)
-- NPM
-
-From the root of this project run: `npm install`. This will pull in the dependencies needed for development.
-
-## Usage
-
-- `npm start`: This command will start up a local web server, open your default browser, and begin watching scss files for changes.
-- `npm run build`: This command will only compile your scss files.
-
-## Things to know
-
-You can customize the structure of this project however you like. A base set of functionality has been provided to get you started. Make sure to familiarize yourself with what's going on in the `gulpfile.js`.
+For the first milestone, I began working on the project by writing the static HTML, and creating the foundational styles for the application. 
