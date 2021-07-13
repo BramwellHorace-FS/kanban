@@ -1,0 +1,22 @@
+// Placeholder
+%center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// button 
+%btn  {
+    color: $primary-white;
+    background-size: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 1.7rem;
+    text-indent: -999999px;
+    font-weight: $bold-weight;
+    border: 0;
+    height: 3.5rem;
+    width: 3.5rem;
+    padding: 1.8rem;
+    @include bradius(0.5rem,0.5rem,0.5rem,0.5rem);
+ }

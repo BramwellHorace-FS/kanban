@@ -1,0 +1,46 @@
+// article
+article {
+    max-width: 100%;
+    display: block;
+    background: $primary-white;
+    padding: 2rem;
+    overflow: auto;
+    margin: 2rem;
+    @include border(0.1rem solid $primary-black,0.1rem solid $primary-black,0.5rem solid $primary-black, 0.1rem solid $primary-black);
+    @include bradius(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+
+    .task__date {
+        font-size: 1.4rem;
+        font-weight: $medium-weight;
+        color: $task-date-color;
+        background-image: url("../images/cal.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        padding: 0 0 0 3rem;
+    }
+
+    .task__priority {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: $bold-weight;
+        padding: 0.3rem 1rem;
+        float: right;
+        @include bradius(3rem,3rem ,3rem ,3rem );
+    }
+
+    // Task priority
+    .low {
+        background: $secondary-green;
+        color: $primary-green;
+    }
+
+    .medium {
+        background: $secondary-yellow;
+        color: $primary-yellow;
+    }
+
+    .high {
+        background: $secondary-orange;
+        color: $primary-orange;
+    }
+}
