@@ -1,6 +1,6 @@
 // font stack
-$primary-font: 'Montserrat', sans-serif;
-$secondary-font: 'DM Sans', sans-serif;
+$base-heading: 'Heebo', sans-serif;
+$paragraph: 'DM Sans', sans-serif;
 
 // font-weight
 $heavy-weight: 800;
@@ -8,25 +8,38 @@ $bold-weight: 700;
 $medium-weight: 600;
 $regular-weight: 500;
 
-// colors
-$primary-background: #F7F8F9;
-$primary-white: #fff;
-$primary-purple: rgba(103, 85, 157,1);
-$secondary-purple: rgba(103, 85, 157, 0.5);
-$primary-yellow: rgba( 219, 163, 55, 100%);
-$secondary-yellow: rgba(244, 185, 67, 0.5);
-$primary-orange: rgba(234, 103, 60, 1);
-$secondary-orange: rgba(234, 103, 60, 0.5);
-$primary-black: rgba(18, 18, 18, 1);
-$secondary-black: rgba(18, 18, 18, 0.5);
-$primary-pink: rgba(237, 161, 189, 1);
-$secondary-pink: rgba(237, 161, 189, 0.5);
-$primary-green: rgba(69, 127, 73, 1);
-$secondary-green: rgba(69, 127, 73, 0.5);
-$primary-blue: rgba(58, 120, 168, 1);
-$secondary-blue: rgba(58, 120, 168, 0.5);
-$task-date-color: cornflowerblue;
+// Base 
+$base-light: #fff;
+$base-dark: rgba(18, 18, 18, 1);
 
+// Accent
+$accent-color1: rgba(103, 85, 157,1);
+$accent-color2: rgba(58, 120, 168, 1);
+$accent-color3: rgba( 85, 152, 123, 1);
+$accent-light1: rgba( 229, 234, 240, 1);
+$accent-light2: rgba(18, 18, 18, 0.1);
+$accent-light3: rgba(173, 173, 173, 1);
+$accent-dark1: rgba(18, 18, 18, 0.5);
+$accent-dark2: rgba( 87, 87, 88, 1);
+$accent-dark3: rgba( 22, 31, 38, 1);
+
+
+// Background 
+$base-background: rgba( 252, 250, 255, 1);
+$task-background: rgba( 226, 225, 240, 1);
+$medium-priority-background: rgba( 251, 242, 202, 1);
+$high-priority-background: rgba( 247, 227, 226, 1);
+$low-priotiy-background: rgba( 216, 249, 229, 1);
+
+// Text colors
+$medium-priority-text:rgba( 128, 73, 31, 1);
+$high-priority-text: rgba( 147, 56, 49, 1);
+$low-priority-text: rgba( 42, 91, 69, 1);
+
+// Border colors
+$accent-border1: rgba(103, 85, 157,0.1);
+$accent-border2: rgba(58, 120, 168, 0.1);
+$accent-border3: rgba( 85, 152, 123, 0.1);
 
 // icons
 $add-icon: url("../images/add.png");

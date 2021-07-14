@@ -1,20 +1,7 @@
 // Mixins
-@mixin bradius ($topLeft,$topRight,$bottomLeft,$bottomRight) {
-    border-top-left-radius: $topLeft;
-    border-top-right-radius: $topRight;
-    border-bottom-left-radius: $bottomLeft;
-    border-bottom-right-radius: $bottomRight;
-}
-
-@mixin border ($topBorder,$rightBorder,$bottomBorder, $leftBorder) {
-    border-top:$topBorder;
-    border-right: $rightBorder;
-    border-bottom:$bottomBorder;
-    border-left: $leftBorder;
-}
-
-@mixin btn-theme($color, $icon){
-    background-color: $color;
-    background-image: $icon;
+@mixin btn-theme($background, $textColor){
+    background: $background no-repeat 1rem/20% url(../images/add.png);
+    color: $textColor;
+    text-indent: 1rem;
     @extend %btn;
 }

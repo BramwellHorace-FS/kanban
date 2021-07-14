@@ -1,13 +1,9 @@
 // buttons
 button {
-    @include btn-theme($primary-black, $add-icon);
+    @include btn-theme($accent-color1, $base-light);
 
     &:hover {
-        background-color: $secondary-black;
+        opacity: 0.8;
         cursor: pointer;
-    }
-
-    @media (min-width: 600px) {
-        font-size: 1.6rem;
     }
 }

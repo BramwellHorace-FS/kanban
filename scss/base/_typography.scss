@@ -1,6 +1,7 @@
 // Imported  fonts
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap');
 
 // Typography
 html {
@@ -8,14 +9,14 @@ html {
 }
 
 body {
-    font: 1.4rem/2.5rem $secondary-font;
-    background: $primary-background;
-    color: $primary-black;
+    font: 1.4rem/2.5rem $paragraph;
+    background: $base-background;
+    color: $accent-dark3;
 }
 
 h1 {
-    font-size: 2.4rem;
-    font-family: $primary-font;
+    font-size: 1.8rem;
+    font-family: $base-heading;
     font-weight: $heavy-weight;
 
     @media (min-width: 600px) {
@@ -29,8 +30,9 @@ h1 {
 
 h2 {
     font-size: 2rem;
-    font-family: $primary-font;
+    font-family: $base-heading;
     font-weight: $heavy-weight;
+    color: $accent-dark3;
 
     @media (min-width: 600px) {
         font-size: 2.4rem;
@@ -43,12 +45,14 @@ h2 {
 
 h3 {
     font-size: 1.6rem;
-    font-family: $primary-font;
+    font-family: $base-heading;
     font-weight: $bold-weight;
     clear: both;
+    color: $accent-color1;
 
     @media (min-width: 600px) {
         font-size: 2rem;
+        line-height: 3rem;
     }
 
     @media (min-width: 1200px) {
@@ -58,9 +62,10 @@ h3 {
 
 p {
     font-size: 1.6rem;
-    font-family: $secondary-font;
+    font-family: $accent-dark3;
     font-weight: $regular-weight;
     margin: 1.5rem 0;
+    color: $accent-dark2;
 
     @media (min-width: 600px) {
         font-size: 1.8rem;
