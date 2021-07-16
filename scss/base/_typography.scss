@@ -71,3 +71,33 @@ p {
         font-size: 2rem;
     }
 }
+
+form {
+    font-family: $base-heading;
+
+    label {
+        font-size: 1.6rem;
+    
+        @media (min-width: 600px) {
+            font-size: 1.8rem;
+        }
+    
+        @media (min-width: 1200px) {
+            font-size: 2rem;
+        }
+    }
+
+    input::placeholder, textarea::placeholder, select, input[type="date" i] {
+        font-family: $paragraph;
+        font-size: 1.4rem;
+
+        @media (min-width: 600px) {
+            font-size: 1.6rem;
+        }
+    
+        @media (min-width: 1200px) {
+            font-size: 1.8rem;
+        }
+    }
+}
+
