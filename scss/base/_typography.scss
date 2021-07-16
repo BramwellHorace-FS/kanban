@@ -37,26 +37,22 @@ h2 {
     @media (min-width: 600px) {
         font-size: 2.4rem;
     } 
-
-    @media (min-width: 1200px) {
-        font-size: 2.8rem;
-    }
 }
 
 h3 {
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-family: $base-heading;
     font-weight: $bold-weight;
     clear: both;
     color: $accent-color1;
 
     @media (min-width: 600px) {
-        font-size: 2rem;
+        font-size: 2.4rem;
         line-height: 3rem;
     }
 
     @media (min-width: 1200px) {
-        font-size: 2.4rem;
+        font-size: 2.6rem;
     }
 }
 
