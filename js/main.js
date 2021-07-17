@@ -95,6 +95,11 @@ class Controller {
         main.appendChild(modal);
 
         const cancelBtn = document.querySelector('#cancel').addEventListener('click', this.closeModal);
+        const form = document.querySelector('form');
+        form.addEventListener('submit', e => {
+            evt.preventDefault();
+        });
+
         const submitBtn = document.querySelector('#submit').addEventListener('click', this.captureData);
     }
 
