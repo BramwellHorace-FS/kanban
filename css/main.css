@@ -216,7 +216,8 @@ article {
     font-weight: 700;
     padding: 0.3rem 2rem;
     float: right;
-    border-radius: 20rem; }
+    border-radius: 20rem;
+    text-transform: capitalize; }
   article [data-priority="low"] {
     background: #d8f9e5;
     color: #2a5b45; }
