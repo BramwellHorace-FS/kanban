@@ -1,11 +1,10 @@
 // Application
 class App {
     constructor() {
-        console.log(`App started successfully.`);
         this.controller = new Controller();
     }
 
-    static getInstance = () => {
+    static getInstance () {
         if(!App.instance) {
             App.instance = new App();
             return App.instance;
@@ -15,36 +14,49 @@ class App {
     }
 }
 
-// Controller (Capture data)
 class Controller {
-    constructor() {
-    console.log(`Controller created.`);
-    this.model = new Model();
-    this.view = new View();
-    }
-
-
-}
-
-// Model (Process Data)
-class Model {
     constructor () {
-        console.log(`Model created.`);
+        this.loadData();
+        this.model = new Model();
+        this.view = new View();
         this.buttons = document.querySelectorAll('button');
-        this.buttonEvent();
+        this.buttons[0].addEventListener('click', this.displayModal);
+        this.buttons[1].addEventListener('click', this.displayModal);
+        this.buttons[2].addEventListener('click', this.displayModal);
     }
 
-    // add button event listeners
-    buttonEvent = () => {
-        this.buttons.forEach((btn) => {
-            btn.addEventListener('click', this.createModal)
-        });
+    loadData = () => {
+        const base = 'https://sturdy-torpid-throat.glitch.me/api/';
+        const accessToken = '5b1064585f4ab8706d275f90';
+        const URL = `${base}lists?accessToken=${accessToken}`;
+
+        // Method
+        const option = { method: 'GET'}
+
+        // Fetch
+        fetch(URL, option)
+            .then(response => {
+                if(response.ok) {
+                    return response.json()
+                }else {
+                    throw response
+                }
+            })
+            .then (data => {
+                const evnt = new Event('loaded_data');
+                evnt.data = data;
+                document.dispatchEvent(evnt);
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
-    // create modal 
-    createModal = () => {
+    displayModal = () => {
         // create element
         const modal = document.createElement('div');
+        const main = document.querySelector('main');
+
         // give div an id of modal
         modal.setAttribute("id", "modal");
         // set innerHTML
@@ -78,16 +90,168 @@ class Model {
             </form>
         </div>
         `;
-        // append to main
-        document.querySelector('main').appendChild(modal);
 
+        // append to main
+        main.appendChild(modal);
+
+        const cancelBtn = document.querySelector('#cancel').addEventListener('click', this.closeModal);
+        const submitBtn = document.querySelector('#submit').addEventListener('click', this.captureData);
+    }
+
+    closeModal = () => {
+        document.querySelector('#modal').remove();
+    }
+
+    captureData = () => {
+        
     }
 }
 
-// Vieiw (Display Data)
+
+class Model {
+    constructor() {
+        document.addEventListener('loaded_data', e => this.processData(e))
+    }
+
+    processData = (e) => {
+        const backlog = [];
+        const implementation = [];
+        const complete = [];
+        const priority = ['high', 'low', 'medium'];
+
+
+        // Process backlog data
+        e.data[0].items.forEach((task, index) => {
+            let newTask = new Task();
+            newTask.title = task.title;
+            newTask.description = task.description;
+            newTask.date = task.dueDate;
+
+            // set priority
+            switch (index) {
+                case 0: 
+                    newTask.priority = priority[0]; 
+                break;
+                case 1: 
+                    newTask.priority = priority[2];
+                break;
+                case 2:
+                    newTask.priority = priority[0];
+                break;
+            }
+
+            backlog.push(newTask);
+        });
+
+        // Process implementation 
+        e.data[1].items.forEach((task, index) => {
+            let newTask = new Task();
+            newTask.title = task.title;
+            newTask.description = task.description;
+            newTask.date = task.dueDate;
+
+            // set priority
+            switch (index) {
+                case 0: 
+                    newTask.priority = priority[1]; 
+                break;
+                case 1: 
+                    newTask.priority = priority[0];
+                break;
+                case 2:
+                    newTask.priority = priority[2];
+                break;
+            }
+            implementation.push(newTask);
+        });
+
+
+        // Process complete 
+        e.data[2].items.forEach((task, index) => {
+            let newTask = new Task();
+            newTask.title = task.title;
+            newTask.description = task.description;
+            newTask.date = task.dueDate;
+            complete.push(newTask);
+
+            // set priority
+            switch (index) {
+                case 0: 
+                    newTask.priority = priority[0]; 
+                break;
+                case 1: 
+                    newTask.priority = priority[0];
+                break;
+                case 2:
+                    newTask.priority = priority[2];
+                break;
+            }
+        });
+
+        // Event
+        const evnt = new Event('data_processed');
+        evnt.backlog = backlog;
+        evnt.implementation = implementation;
+        evnt.complete = complete;
+        document.dispatchEvent(evnt);
+    }
+}
+
+
 class View {
     constructor() {
-        console.log(`View created.`);
+        document.addEventListener('data_processed', e => this.displayData(e));
+    }
+
+    displayData = (e) => {
+        const sections = document.querySelectorAll('section');
+        const articles = document.querySelectorAll('article');
+        
+        // Remove articles
+        articles.forEach((article) => {
+            article.remove();
+        })
+
+        // 
+        e.backlog.forEach((task) => {
+            const newTask = document.createElement('article');
+            newTask.setAttribute("class", "task");
+            newTask.innerHTML = `
+                <p class="task__priority" data-priority="${task.priority}">${task.priority}</p>
+                <h3>${task.title}</h3>
+                <p>${task.description}</p>
+                <p class="task__date"><time datetime="2021-08-07">${task.date}</time></p> 
+            `;
+
+            sections[0].appendChild(newTask);
+        })
+
+        e.implementation.forEach((task) => {
+            const newTask = document.createElement('article');
+            newTask.setAttribute("class", "task");
+            newTask.innerHTML = `
+                <p class="task__priority" data-priority="${task.priority}">${task.priority}</p>
+                <h3>${task.title}</h3>
+                <p>${task.description}</p>
+                <p class="task__date"><time datetime="2021-08-07">${task.date}</time></p> 
+            `;
+
+            sections[1].appendChild(newTask);
+        })
+
+
+        e.complete.forEach((task) => {
+            const newTask = document.createElement('article');
+            newTask.setAttribute("class", "task");
+            newTask.innerHTML = `
+                <p class="task__priority" data-priority="${task.priority}">${task.priority}</p>
+                <h3>${task.title}</h3>
+                <p>${task.description}</p>
+                <p class="task__date"><time datetime="2021-08-07">${task.date}</time></p> 
+            `;
+            sections[2].appendChild(newTask);
+        })
+
     }
 }
 
