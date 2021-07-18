@@ -13,12 +13,16 @@ form {
             margin: 0 0 0.5rem;
         }
 
-        input,textarea,select {
+        input,textarea, select {
             border: 0.2rem solid $accent-light2;
             border-radius: 0.4rem;
             display: block;
             width: 100%;
             padding: 1rem; 
+        }
+
+        textarea {
+            resize: none;
         }
     }
 
