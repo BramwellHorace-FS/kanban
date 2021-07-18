@@ -179,6 +179,7 @@ class View {
             section.addEventListener('click', (e) => {
 
                 let targetHTML = '';
+                let dataAtrr = ''
 
                 switch (e.target.nodeName) {
                     case 'ARTICLE':
@@ -198,15 +199,15 @@ class View {
                 taskModal.setAttribute('id', 'task-modal');
 
                 if(e.target.parentNode == sections[0] || e.target.parentNode.parentNode == sections[0]) {
-                    taskModal.setAttribute('data-task', 'backlog');
+                    dataAtrr = 'backlog';
                 }else if (e.target.parentNode == sections[1] || e.target.parentNode.parentNode == sections[1]){
-                    taskModal.setAttribute('data-task', 'implementation');
+                    dataAtrr = 'implementation';
                 }else if (e.target.parentNode == sections[2] || e.target.parentNode.parentNode == sections[2]) {
-                    taskModal.setAttribute('data-task', 'complete');
+                    dataAtrr = 'complete';
                 }
 
                 taskModal.innerHTML = `
-                    <div id ='task-modal__content'>
+                    <div id ='task-modal__content' data-task = '${dataAtrr}'>
                     ${targetHTML}
                     <button id='close'>Close</button>
                     </div>
