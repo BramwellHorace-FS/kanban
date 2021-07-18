@@ -2,7 +2,6 @@ class App {
     constructor() {
         this.controller = new Controller();
         console.log('app started successfully.');
-        this.removeTasks();
     }
 
     static getInstance = () => {
@@ -14,12 +13,7 @@ class App {
         }
     }
 
-    removeTasks = () => {
-        const articles = document.querySelectorAll('article');
-        articles.forEach((article) => {
-            article.remove();
-        })
-    }
+   
 }
 
 // Controller
@@ -141,12 +135,21 @@ class Model {
 // View
 class View {
     constructor() {
+        this.removeTasks();
         document.addEventListener('data_processed', e => this.displayData(e));
         document.addEventListener('data_captured', e => this.displayData(e));
     }
 
+    removeTasks = () => {
+        const articles = document.querySelectorAll('article');
+        articles.forEach((article) => {
+            article.remove();
+        })
+    }
+
     displayData = (e) => {
         const sections = document.querySelectorAll('section');
+        const main = document.querySelector('main');
 
         if(e.type == 'data_processed') { 
 
@@ -171,57 +174,6 @@ class View {
                 default:
             }
         }
-
-        
-
-        // Click to view task
-        sections.forEach((section) => {
-            section.addEventListener('click', (e) => {
-
-                let targetHTML = '';
-                let dataAtrr = ''
-
-                switch (e.target.nodeName) {
-                    case 'ARTICLE':
-                        targetHTML = e.target.innerHTML;
-                        break;
-                    case 'H3':
-                        targetHTML = e.target.parentNode.innerHTML;    
-                        break;
-                    case 'P':
-                        targetHTML = e.target.parentNode.innerHTML;    
-                        break;
-                    default:
-                        break;
-                }
-
-                const taskModal = document.createElement('div');
-                taskModal.setAttribute('id', 'task-modal');
-
-                if(e.target.parentNode == sections[0] || e.target.parentNode.parentNode == sections[0]) {
-                    dataAtrr = 'backlog';
-                }else if (e.target.parentNode == sections[1] || e.target.parentNode.parentNode == sections[1]){
-                    dataAtrr = 'implementation';
-                }else if (e.target.parentNode == sections[2] || e.target.parentNode.parentNode == sections[2]) {
-                    dataAtrr = 'complete';
-                }
-
-                taskModal.innerHTML = `
-                    <div id ='task-modal__content' data-task = '${dataAtrr}'>
-                    ${targetHTML}
-                    <button id='close'>Close</button>
-                    </div>
-                `;
-
-                document.querySelector('main').appendChild(taskModal);
-                window.addEventListener('scroll', Utils.disableScroll);
-                document.querySelector('#close').addEventListener('click', () => {
-                    document.querySelector('#task-modal').remove();
-                    window.removeEventListener('scroll', Utils.disableScroll);
-                });
-            })
-        });
-
     }
 }
 
