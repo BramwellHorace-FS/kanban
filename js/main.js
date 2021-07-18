@@ -186,8 +186,10 @@ class View {
                     const taskModal = document.createElement('div');
                     taskModal.setAttribute('id', 'task-modal');
                     taskModal.innerHTML = `
+                        <div id = 'task-modal__content'>
                         ${e.target.innerHTML}
                         <button id='close'>Close</button>
+                        </div>
                     `
                     document.querySelector('main').appendChild(taskModal);
                 }
