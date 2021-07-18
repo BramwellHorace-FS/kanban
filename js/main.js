@@ -147,13 +147,8 @@ class View {
 
     displayData = (e) => {
         const sections = document.querySelectorAll('section');
-        // const articles = document.querySelectorAll('article');   
 
         if(e.type == 'data_processed') { 
-            // // Remove articles
-            // articles.forEach((article) => {
-            //     article.remove();
-            // })
 
             const tasks = [e.backlog, e.implementation, e.complete];
 
@@ -182,17 +177,47 @@ class View {
         // Click to view task
         sections.forEach((section) => {
             section.addEventListener('click', (e) => {
-                if (e.target.nodeName == 'ARTICLE') {
-                    const taskModal = document.createElement('div');
-                    taskModal.setAttribute('id', 'task-modal');
-                    taskModal.innerHTML = `
-                        <div id = 'task-modal__content'>
-                        ${e.target.innerHTML}
-                        <button id='close'>Close</button>
-                        </div>
-                    `
-                    document.querySelector('main').appendChild(taskModal);
+
+                let targetHTML = '';
+
+                switch (e.target.nodeName) {
+                    case 'ARTICLE':
+                        targetHTML = e.target.innerHTML;
+                        break;
+                    case 'H3':
+                        targetHTML = e.target.parentNode.innerHTML;    
+                        break;
+                    case 'P':
+                        targetHTML = e.target.parentNode.innerHTML;    
+                        break;
+                    default:
+                        break;
                 }
+
+                const taskModal = document.createElement('div');
+                taskModal.setAttribute('id', 'task-modal');
+
+                if(e.target.parentNode == sections[0] || e.target.parentNode.parentNode == sections[0]) {
+                    taskModal.setAttribute('data-task', 'backlog');
+                }else if (e.target.parentNode == sections[1] || e.target.parentNode.parentNode == sections[1]){
+                    taskModal.setAttribute('data-task', 'implementation');
+                }else if (e.target.parentNode == sections[2] || e.target.parentNode.parentNode == sections[2]) {
+                    taskModal.setAttribute('data-task', 'complete');
+                }
+
+                taskModal.innerHTML = `
+                    <div id ='task-modal__content'>
+                    ${targetHTML}
+                    <button id='close'>Close</button>
+                    </div>
+                `;
+
+                document.querySelector('main').appendChild(taskModal);
+                window.addEventListener('scroll', Utils.disableScroll);
+                document.querySelector('#close').addEventListener('click', () => {
+                    document.querySelector('#task-modal').remove();
+                    window.removeEventListener('scroll', Utils.disableScroll);
+                });
             })
         });
 
