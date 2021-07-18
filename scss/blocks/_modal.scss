@@ -17,7 +17,7 @@
         border: 1px solid $accent-color4;
 
         h2 {
-            color: #fff;
+            color: $base-light;
             background: $accent-color4;
             font-weight: $medium-weight;
             border-bottom: 1px solid $accent-dark3;
@@ -37,5 +37,36 @@
     justify-content: center;
     align-items: center;
     background: $accet-dark4;
+
+    &__content {
+        background: $base-light;
+        padding: 3rem;
+        border-radius: 0.5rem;
+        margin: 5%;
+        @extend article;
+
+        h3 {
+            color: $base-dark;
+        }
+
+        button {
+            @include btn-theme($base-dark, $base-light);
+            background-image: none;
+            text-indent: 0;
+            margin-top: 1rem;
+        }
+
+        @media (min-width: 600px) {
+            margin: 10%;
+        }
+
+        @media (min-width: 800px) {
+            margin: 20%;
+        }
+
+        @media (min-width: 1200px) {
+            margin: 30%;
+        }
+    }
 }
 

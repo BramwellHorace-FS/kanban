@@ -1,17 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap");
-button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, form button {
+button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, #task-modal__content button, form button {
   font-size: 1.2rem;
   font-weight: 700;
   border: 0;
   padding: 1rem 2rem;
   border-radius: 0.5rem; }
   @media (min-width: 600px) {
-    button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, form button {
+    button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, #task-modal__content button, form button {
       font-size: 1.5rem; } }
 
-body, nav, section, footer, article, h1, h2, h3, p, a, ul, li, dt, dd, input, textarea {
+body, nav, section, footer, article, #task-modal__content, h1, h2, h3, p, a, ul, li, dt, dd, input, textarea {
   margin: 0;
   padding: 0;
   border: 0;
@@ -192,7 +192,7 @@ section {
       color: #fff;
       text-indent: 1rem; }
 
-article {
+article, #task-modal__content {
   max-width: 100%;
   display: block;
   background: #fff;
@@ -201,7 +201,7 @@ article {
   margin: 2rem;
   border-radius: 0.5rem;
   filter: drop-shadow(0.5rem 0.5rem 0.4rem rgba(18, 18, 18, 0.1)); }
-  article .task__date {
+  article .task__date, #task-modal__content .task__date {
     font-size: 1.4rem;
     font-weight: 600;
     color: #161f26;
@@ -210,7 +210,7 @@ article {
     background-repeat: no-repeat;
     padding: 0 0 0 3rem;
     display: block; }
-  article .task__priority {
+  article .task__priority, #task-modal__content .task__priority {
     display: block;
     font-size: 1.4rem;
     font-weight: 700;
@@ -218,13 +218,13 @@ article {
     float: right;
     border-radius: 20rem;
     text-transform: capitalize; }
-  article [data-priority="low"] {
+  article [data-priority="low"], #task-modal__content [data-priority="low"] {
     background: #d8f9e5;
     color: #2a5b45; }
-  article [data-priority="medium"] {
+  article [data-priority="medium"], #task-modal__content [data-priority="medium"] {
     background: #fbf2ca;
     color: #80491f; }
-  article [data-priority="high"] {
+  article [data-priority="high"], #task-modal__content [data-priority="high"] {
     background: #f7e3e2;
     color: #933831; }
 
@@ -262,6 +262,29 @@ article {
   justify-content: center;
   align-items: center;
   background: rgba(22, 31, 38, 0.2); }
+  #task-modal__content {
+    background: #fff;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    margin: 5%; }
+    #task-modal__content h3 {
+      color: #121212; }
+    #task-modal__content button {
+      background: #121212 no-repeat 1rem/20% url(../images/add.png);
+      color: #fff;
+      text-indent: 1rem;
+      background-image: none;
+      text-indent: 0;
+      margin-top: 1rem; }
+    @media (min-width: 600px) {
+      #task-modal__content {
+        margin: 10%; } }
+    @media (min-width: 800px) {
+      #task-modal__content {
+        margin: 20%; } }
+    @media (min-width: 1200px) {
+      #task-modal__content {
+        margin: 30%; } }
 
 form {
   padding: 4rem 2rem; }
