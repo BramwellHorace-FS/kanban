@@ -104,4 +104,9 @@ class Utils {
         e.preventDefault();
         });
     }
+
+    // Prevent scroll
+    static disableScroll = () => {
+        window.scrollTo(0,0);
+    }
 }

@@ -1,6 +1,8 @@
 class App {
     constructor() {
         this.controller = new Controller();
+        console.log('app started successfully.');
+        this.removeTasks();
     }
 
     static getInstance = () => {
@@ -10,6 +12,13 @@ class App {
         }else {
             throw ('App already running.');
         }
+    }
+
+    removeTasks = () => {
+        const articles = document.querySelectorAll('article');
+        articles.forEach((article) => {
+            article.remove();
+        })
     }
 }
 
@@ -40,6 +49,8 @@ class Controller {
                 Utils.createModal();
                 Utils.preventDefault();
 
+                window.addEventListener('scroll', Utils.disableScroll);
+
                 switch(buttons.indexOf(btn)) {
                     case 0: 
                     title = 'Backlog';
@@ -55,6 +66,7 @@ class Controller {
                 // Remove modal when cancel button is clicked
                 document.querySelector('#cancel').addEventListener('click', () => {
                     document.querySelector('#modal').remove();
+                    window.removeEventListener('scroll', Utils.disableScroll);
                 });
 
                 // Capture data after submit button is clicked
@@ -71,6 +83,7 @@ class Controller {
                     document.dispatchEvent(evt);
 
                     document.querySelector('#modal').remove();
+                    window.removeEventListener('scroll', Utils.disableScroll);
                 });
 
             });
@@ -134,13 +147,13 @@ class View {
 
     displayData = (e) => {
         const sections = document.querySelectorAll('section');
-        const articles = document.querySelectorAll('article');   
+        // const articles = document.querySelectorAll('article');   
 
         if(e.type == 'data_processed') { 
-            // Remove articles
-            articles.forEach((article) => {
-                article.remove();
-            })
+            // // Remove articles
+            // articles.forEach((article) => {
+            //     article.remove();
+            // })
 
             const tasks = [e.backlog, e.implementation, e.complete];
 
@@ -163,6 +176,24 @@ class View {
                 default:
             }
         }
+
+        
+
+        // Click to view task
+        sections.forEach((section) => {
+            section.addEventListener('click', (e) => {
+                if (e.target.nodeName == 'ARTICLE') {
+                    const taskModal = document.createElement('div');
+                    taskModal.setAttribute('id', 'task-modal');
+                    taskModal.innerHTML = `
+                        ${e.target.innerHTML}
+                        <button id='close'>Close</button>
+                    `
+                    document.querySelector('main').appendChild(taskModal);
+                }
+            })
+        });
+
     }
 }
 
