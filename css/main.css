@@ -267,8 +267,6 @@ article, #task-modal__content {
     padding: 3rem;
     border-radius: 0.5rem;
     margin: 5%; }
-    #task-modal__content h3 {
-      color: #121212; }
     #task-modal__content button {
       background: #121212 no-repeat 1rem/20% url(../images/add.png);
       color: #fff;

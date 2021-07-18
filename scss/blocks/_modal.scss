@@ -45,10 +45,6 @@
         margin: 5%;
         @extend article;
 
-        h3 {
-            color: $base-dark;
-        }
-
         button {
             @include btn-theme($base-dark, $base-light);
             background-image: none;
@@ -68,5 +64,6 @@
             margin: 30%;
         }
     }
+
 }
 
