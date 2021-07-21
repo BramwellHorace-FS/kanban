@@ -8,22 +8,5 @@
     justify-content: center;
     align-items: center;
     background: $accet-dark4;
-
-    &__content {
-        background: $base-light;
-        padding-bottom: 2rem;
-        border-radius: 0.5rem;
-        border: 1px solid $accent-color4;
-        max-width: 85%;
-
-        h2 {
-            color: $base-light;
-            background: $accent-color4;
-            font-weight: $medium-weight;
-            border-bottom: 1px solid $accent-dark3;
-            padding: 2rem 4rem;
-            border-radius: 0.5rem 0.5rem 0 0;
-        }
-    }
 }
 

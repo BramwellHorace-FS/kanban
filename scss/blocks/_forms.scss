@@ -1,42 +1,55 @@
 form {
-    padding: 4rem 2rem;
+  background: $base-light;
+  border-radius: 0.5rem;
+  border: 1px solid $accent-color4;
+  max-width: 85%;
 
-    fieldset {
-        margin: 0 0 2rem;
-        padding: 0;
-        position: relative;
-        border: 0;
-        clear: both;
+  h2 {
+    color: $base-light;
+    background: $accent-color4;
+    font-weight: $medium-weight;
+    border-bottom: 1px solid $accent-dark3;
+    padding: 2rem 4rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
 
-        label {
-            display: inline-block;
-            margin: 0 0 0.5rem;
-        }
+  fieldset {
+    padding: 2rem;
+    position: relative;
+    border: 0;
+    clear: both;
 
-        input,textarea, select {
-            border: 0.2rem solid $accent-light2;
-            border-radius: 0.4rem;
-            display: block;
-            width: 100%;
-            padding: 1rem; 
-        }
-
-        textarea {
-            resize: none;
-        }
+    label {
+      display: inline-block;
+      margin: 0 0 0.5rem;
     }
 
-    button {
-        @include btn-theme($accent-color4, $base-light);
-        background-image: none;
-        text-indent: 0;
-        width: calc(50% - 0.5rem);
-        display: block;
-        float: left;
-        margin-bottom: 2rem;
-
-        &:nth-of-type(1) {
-            margin-right: 1rem;
-        }
+    input,
+    textarea,
+    select {
+      border: 0.2rem solid $accent-light2;
+      border-radius: 0.4rem;
+      display: block;
+      width: 100%;
+      padding: 1rem;
     }
+
+    textarea {
+      resize: none;
+    }
+  }
+
+  button {
+    @include btn-theme($accent-color4, $base-light);
+    background-image: none;
+    text-indent: 0;
+    width: calc(50% - 0.5rem);
+    display: block;
+    float: left;
+    margin: 0 2rem 2rem;
+
+    &:nth-of-type(1) {
+      margin-right: 1rem;
+    }
+  }
 }
