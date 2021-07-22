@@ -57,7 +57,7 @@ class Controller {
       // Display the modal
       Utils.displayModal();
       //  Disable scroll
-      Utils.disableScroll();
+      window.addEventListener("scroll", Utils.disableScroll);
 
       // Id used to place new task item in the correct list
       const id = e.target.parentElement.parentElement.dataset.id;
