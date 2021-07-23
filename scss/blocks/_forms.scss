@@ -24,6 +24,17 @@ form {
       margin: 0 0 0.5rem;
     }
 
+    .required::after {
+      content:" *";
+      color: $error;
+    }
+
+    .error {
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+      color: $error;
+    }
+
     input,
     textarea,
     select {

@@ -259,6 +259,13 @@ form {
     form fieldset label {
       display: inline-block;
       margin: 0 0 0.5rem; }
+    form fieldset .required::after {
+      content: " *";
+      color: red; }
+    form fieldset .error {
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+      color: red; }
     form fieldset input,
     form fieldset textarea,
     form fieldset select {
