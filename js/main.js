@@ -1,38 +1,41 @@
+/* CREATE APP CLASS (SINGLETON)
+---------------------------------------------------------------- */
 class App {
   constructor() {
-    //   confirms app has started successfully
+    // Confirms app has started successfully
     console.log("App started successfully.");
-    this.controller = new Controller();
+
+    // Variables
+    this.main = document.querySelector("main");
+    this.projectName = "sturdy-torpid-throat";
+    this.accessToken = "5b1064585f4ab8706d275f90";
+
+    // Load Data
+    this.fecthData();
+
+    // Main event listener
+    this.main.addEventListener("click", (e) => this.collectData(e));
   }
 
-  // Gets a single instance of the application
+  /* METHOD USED TO RETURN SINGLE INSTANCE OF THE APP
+  ------------------------------------------------------------ */
   static getInstance() {
     if (!App.instance) {
       App.instance = new App();
       return App.instance;
     } else {
-      throw "App is already running.";
+      throw "App is currently running";
     }
   }
-}
 
-// Controller
-class Controller {
-  constructor() {
-    this.model = new Model();
-    this.view = new View();
-    this.projectName = "sturdy-torpid-throat";
-    this.accessToken = "5b1064585f4ab8706d275f90";
-    this.loadData();
-    document.querySelector("main").addEventListener("click", (e) => this.gatherData(e));
-  }
-
-  // method used for loading data from the api
-  loadData() {
+  /* METHOD USED TO FECTH DATA FROM THE API
+  ------------------------------------------------------------------------------------------------ */
+  fecthData() {
+    // endpoint
     const URL = `https://${this.projectName}.glitch.me/api/lists?accessToken=${this.accessToken}`;
-    const option = { method: "GET" };
+    const option = { Method: "GET" };
 
-    // Fetch data
+    // fetch
     fetch(URL, option)
       .then((response) => {
         if (response.ok) {
@@ -42,89 +45,239 @@ class Controller {
         }
       })
       .then((data) => {
-        const evt = new Event("data_loaded");
-        evt.data = data;
-        document.dispatchEvent(evt);
+        // Pass data to display method
+        this.display(data);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  // Gather data
-  gatherData(e) {
-    if (e.target.parentElement.nodeName == "HEADER" && e.target.nodeName == "BUTTON") {
-      // Display the modal
-      Utils.displayModal();
-      //  Disable scroll
-      window.addEventListener("scroll", Utils.disableScroll);
+  /* METHOD USED TO DISPLAY DATA
+  -------------------------------------------------------------------- */
+  display(data) {
+    // loop through the data lists
+    data.forEach((list) => {
+      // create the section HTML
+      const sectionHTML = `
+      <section data-id = "${list.id}">
+      <header>
+      <h2>${list.title}</h2>
+      <button class = 'add-task-btn'>Task</button>
+      </header>
+      </section>
+      `;
 
-      // Id used to place new task item in the correct list
-      const id = e.target.parentElement.parentElement.dataset.id;
+      // add to main beforeend
+      this.main.insertAdjacentHTML("beforeend", sectionHTML);
+    }); // end of foreach Loop
 
-      // Event listener used used to close modal if cancel button is clicked
-      document.querySelector("#cancel").addEventListener("click", (e) => {
-        // removes the disable scroll event listener
-        window.removeEventListener("scroll", Utils.disableScroll);
-        // Removes modal
-        document.querySelector("#modal").remove();
+    // Get all section created
+    const sections = document.querySelectorAll("section");
+
+    // Loop through list and add items to appropriate list
+    for (let i = 0; i < data.length; i++) {
+      // Sort
+      data[i].items.sort(function (a, b) {
+        return b.id - a.id;
       });
 
-      // Event listener added to the submit button
-      document.querySelector("#submit").addEventListener("click", (e) => {
-        Utils.preventDefault();
+      // Loop through items and add to sections
+      data[i].items.forEach((item) => {
+        // Article (Tasks) HTML
+        const articleHTML = `
+        <article class="task">
+            <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${
+          item.priority
+        }</p>
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+            <p class="task__date"><time datetime="2021-08-07">${
+              item.dueDate
+            }</time></p>
+        </article>`;
 
-        // Values from the form
-        const title = document.querySelector("#task-title").value.trim();
-        const description = document.querySelector("#task-description").value.trim();
-        const priority = document.querySelector("#task-priority").value.trim();
-        const date = document.querySelector("#task-date").value.trim();
+        // Add to section
+        sections[i].insertAdjacentHTML("beforeend", articleHTML);
+      });
+    }
+  }
 
-        // if form values are not empty
-        if (title != "" && description != "" && priority != "" && date != "") {
-          // Re-enable scroll by remove the eventlistener
-          window.removeEventListener("scroll", Utils.disableScroll);
-          // Remove modal
-          document.querySelector("#modal").remove();
+  /* METHOD USED GATHER DATA FROM USER
+  --------------------------------------------------------------------- */
+  collectData(e) {
+    // Set target and parent
+    let target = e.target;
+    let parent = target.parentElement;
+    let sectionID = "";
 
-          // New task
-          const taskItem = new Task();
-          taskItem.title = title;
-          taskItem.description = description;
-          taskItem.priority = priority;
-          taskItem.date = date;
+    // check if button class name = add-task-btn
+    if (target.className == "add-task-btn") {
+      // Set the section ID
+      sectionID = parent.parentElement.dataset.id;
 
-          // Custom event
-          const evt = new Event("data_captured");
-          evt.projectName = this.projectName;
-          evt.accessToken = this.accessToken;
-          evt.id = id;
-          evt.task = taskItem;
-          document.dispatchEvent(evt);
+      // Display Modal
+      this.displayModal();
+
+      // Form
+      const form = document.querySelector("form");
+
+      // Disable form default
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+      });
+
+      // Form Items
+      const title = form.elements.namedItem("title");
+      const description = form.elements.namedItem("description");
+      const priority = form.elements.namedItem("priority");
+      const date = form.elements.namedItem("date");
+
+      let titleValidity = false;
+      let descripValidity = false;
+      let priorityValidity = false; 
+      let dateValidity = false;
+
+      // Validate Inputs
+      title.addEventListener('input', e => {
+        let valid = Utils.inputValidation(e);
+        titleValidity = this.checkValidity(valid, titleValidity);
+      });
+
+      description.addEventListener('input', e => {
+        let valid = Utils.inputValidation(e);
+        descripValidity = this.checkValidity(valid, descripValidity);
+      });
+
+      priority.addEventListener('change', e => {
+        let valid = Utils.selectValidation(e);
+        priorityValidity = this.checkValidity(valid, descripValidity);
+      });
+
+      date.addEventListener('change', e => {
+        let valid = Utils.dateValidation(e);
+        dateValidity = this.checkValidity(valid, dateValidity);
+      })
+    
+      // Form buttons
+      const cancelBtn = document.querySelector("#cancel");
+      const submitBtn = document.querySelector("#submit");
+
+      // Add event listener to cancel button
+      cancelBtn.addEventListener("click", (e) => {
+        this.hideModal();
+      });
+
+      // Add event listener to submit button
+      submitBtn.addEventListener("click", (e) => {
+
+        const validities = [];
+    
+        validities.push({input: title, valid: titleValidity}, 
+        {input: description, valid: descripValidity}, 
+        {input: priority, valid: priorityValidity},
+        {input: date, valid: dateValidity})
+
+        // Check if all inputs are valid
+        let valid = validities.every((e) => {
+            return e.valid == true;
+        });
+
+        // Conditional
+        if(valid) {
+          // Create new taskItem
+          const newTask = new TaskItem();
+          newTask.title = title.value.trim();
+          newTask.description = description.value.trim();
+          newTask.priority = priority.value.trim();
+          newTask.date = date.value.trim();
+
+          // Remove Modal
+          this.hideModal();
+
+          // Post to API
+          this.postData(newTask, sectionID);
+
+        }else {
+          validities.forEach((input) => {
+            if(input.valid == false) {
+              input.input.style.borderColor = 'red';
+            }
+          })
         }
       });
     }
   }
-}
 
-// Model
-class Model {
-  constructor() {
-    // event listener - recieve data gathered from form
-    document.addEventListener("data_captured", (e) => this.process(e));
+   /* METHOD USED TO CHECK VALID VALUES
+  ------------------------------------------------------------- */
+  checkValidity(valid, validity){
+
+    if(valid == true) {
+      validity = true;
+    }else if (valid == false) {
+      validity = false;
+    }
+
+    return validity;
   }
 
-  // Procress method used to post new task to the API
-  process(e) {
-    const URL = `https://${e.projectName}.glitch.me/api/items?accessToken=${e.accessToken}`;
+  /* METHOD USED TO ADD ERROR ON SUBMIT
+  ------------------------------------------------------------- */
+  addError(e, charLen) {
+    const target = e;
+    const parent = e.parentElement;
+    const error = `<label class = "error" for = "${target.id}">${target.name} should be at least ${charLen} characters long.</label>`;
 
+    if (!parent.querySelector(".error")) {
+      parent.insertAdjacentHTML("beforeend", error);
+    }
+  }
+
+
+  /* METHOD USED DISPLAY NEW TASK
+  ------------------------------------------------------------- */
+  addTask(taskItem,ID){
+    const sections = document.querySelectorAll('section');
+    const articleHTML = `
+    <article class="task">
+      <p class="task__priority" data-priority="${taskItem.priority.toLowerCase()}">${taskItem.priority}</p>
+      <h3>${taskItem.title}</h3>
+      <p>${taskItem.description}</p>
+      <p class="task__date"><time datetime="2021-08-07">${taskItem.date}</time></p>
+    </article>`;
+    ;
+
+    sections[ID-1].querySelector('header').insertAdjacentHTML('afterend', articleHTML);
+  }
+
+
+  /* METHOD USED TO DISPLAY MODAL
+  ------------------------------------------------------------- */
+  displayModal() {
+    document.querySelector(".dialog").style.display = "flex";
+    window.addEventListener("scroll", Utils.disableScroll);
+  }
+
+  /* METHOD USED TO HIDE MODAL
+  ------------------------------------------------------------ */
+  hideModal() {
+    document.querySelector(".dialog").style.display = "none";
+    window.removeEventListener("scroll", Utils.disableScroll);
+  }
+
+  /* METHOD USED POST TO THE API
+  ------------------------------------------------------------ */
+  postData(data, ID) {
+    const URL = `https://${this.projectName}.glitch.me/api/items?accessToken=${this.accessToken}`;
+  
     // task to send
     const taskToSend = {
-      title: e.task.title,
-      listId: e.id,
-      description: e.task.description,
-      priority: e.task.priority,
-      dueDate: e.task.date,
+      title: data.title,
+      listId: ID,
+      description: data.description,
+      priority: data.priority,
+      dueDate: data.date,
     };
 
     // Config
@@ -151,88 +304,12 @@ class Model {
         console.log(error);
       });
 
-    // Custom event, send task to the view
-    const evt = new Event("data_processed");
-    evt.listID = e.id;
-    evt.task = e.task;
-    document.dispatchEvent(evt);
+      this.addTask(data, ID);
   }
 }
 
-// View
-class View {
-  constructor() {
-    // Event listener to display loaded items
-    document.addEventListener("data_loaded", (e) => this.displayData(e));
-    // Event listener to add new task
-    document.addEventListener("data_processed", (e) => this.addTask(e));
-  }
-
-  // Method used to add new task
-  addTask(e) {
-    // Sections
-    const sections = document.querySelectorAll("section");
-    const section = sections[e.listID - 1];
-    // New Task HTML
-    const taskHTML = `
-    <article class="task">
-        <p class="task__priority" data-priority="${e.task.priority.toLowerCase()}">${e.task.priority}</p>
-        <h3>${e.task.title}</h3>
-        <p>${e.task.description}</p>
-        <p class="task__date"><time datetime="2021-08-07">${e.task.date}</time></p>
-    </article>
-    `;
-    // Add the task to the dom
-    section.firstElementChild.insertAdjacentHTML("afterend", taskHTML);
-  }
-
-  // Method used to display loaded data from the API
-  displayData(e) {
-    const main = document.querySelector("main");
-
-    // Loops through the data and creates a section for each list
-    for (let i = e.data.length - 1; i >= 0; i--) {
-      // Section HTML
-      let sectionHTML = ` 
-        <section data-id = "${e.data[i].id}">
-            <header>
-                <h2>${e.data[i].title}</h2>
-                <button>Task</button>
-            </header>
-        </section>`;
-
-      // Add the section
-      main.insertAdjacentHTML("afterbegin", sectionHTML);
-    }
-
-    // Sections
-    const section = document.querySelectorAll("section");
-
-    // Loop through each list and adds items to each list section
-    for (let i = e.data.length - 1; i >= 0; i--) {
-      //  sort items by highest to lowest
-      const tasks = e.data[i].items;
-      tasks.sort(function (a, b) {
-        return b.id - a.id;
-      });
-
-      //  Add items to the DOM
-      tasks.forEach((task) => {
-        const articleHTML = ` 
-            <article class="task">
-                <p class="task__priority" data-priority="${task.priority.toLowerCase()}">${task.priority}</p>
-                <h3>${task.title}</h3>
-                <p>${task.description}</p>
-                <p class="task__date"><time datetime="2021-08-07">${task.dueDate}</time></p>
-            </article>
-        `;
-        section[i].insertAdjacentHTML("beforeend", articleHTML);
-      });
-    }
-  }
-}
-
-// Start app
+/* STARTS APPLICATION
+--------------------------------- */
 (() => {
   const app = App.getInstance();
 })();

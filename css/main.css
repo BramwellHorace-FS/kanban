@@ -228,13 +228,13 @@ article {
     background: #f7e3e2;
     color: #933831; }
 
-#modal {
+.dialog {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   background: rgba(22, 31, 38, 0.2); }
@@ -262,10 +262,12 @@ form {
     form fieldset .required::after {
       content: " *";
       color: red; }
-    form fieldset .error {
+    form fieldset .error, form fieldset .success {
       font-size: 1.4rem;
       margin-top: 0.5rem;
       color: red; }
+    form fieldset .success {
+      color: green; }
     form fieldset input,
     form fieldset textarea,
     form fieldset select {
@@ -273,7 +275,8 @@ form {
       border-radius: 0.4rem;
       display: block;
       width: 100%;
-      padding: 1rem; }
+      padding: 1rem;
+      outline: none; }
     form fieldset textarea {
       resize: none; }
   form button {

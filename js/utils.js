@@ -1,53 +1,78 @@
+/* UTILITY CLASS
+--------------------------- */
 class Utils {
   constructor() {}
 
-  // Method to disable srcoll
+  /* STATIC METHOD USED DISABLE SCROLL
+  ------------------------------------------------------ */
   static disableScroll() {
     window.scrollTo(0, 0);
   }
 
-  // Method to prevent default
-  static preventDefault() {
-    const form = document.querySelector("form");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-    });
+  /* METHOD TO VALIDATE TEXT & TEXTAREA INPUTS
+  ------------------------------------------------------ */
+  static inputValidation(e) {
+    // Set variables
+    let target = e.target;
+    let parent = target.parentElement;
+    let charLen = 0;
+
+    // Set character length based on target
+    if (target.name == "Title") {
+      charLen = 5;
+    } else {
+      charLen = 20;
+    }
+
+    // Create label to display error
+    const error = `<label class = "error" for = "${target.id}">${target.name} should be at least ${charLen} characters long.</label>`;
+    // const success = `<label class = "success" for = "${target.id}">${target.name} is at least ${charLen} characters long.</label>`;
+
+
+    // Add error message to parent element
+    if (target.value.trim() == 0 || target.value.trim().length < charLen) {
+      if (!parent.querySelector(".error")) {
+        parent.insertAdjacentHTML("beforeend", error);
+        target.style.borderColor = "red";
+        return false;
+      }
+    } else {
+      if (parent.querySelector(".error")) {
+        parent.removeChild(parent.querySelector(".error"));
+        target.style.borderColor = "green";
+        return true;
+      }
+    }
   }
 
-  // Method to create Modal
-  static displayModal() {
-    // Display Modal
-    const main = document.querySelector("main");
-    const modalHTML = `
-      <div id = "modal">
-      <form action = "" method = "POST"> 
-          <h2>Add Task</h2>
-          <fieldset>
-              <label for="task-title">Title</label>
-              <input type="text" name="task-title" id="task-title" placeholder="Enter Task Ttile" required>
-          </fieldset>
-          <fieldset>
-              <label for="task-description">Description</label>
-              <textarea name="task-description" id="task-description" cols="50" rows="10" placeholder="Enter task description" required></textarea>
-          </fieldset>
-          <fieldset>
-              <label for="task-priority">Task Piority</label>
-              <select id="task-priority" name="task-priority" required>
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-              </select>
-          </fieldset>
-          <fieldset>
-              <label for="task-date">Date</label>
-              <input type="date" id="task-date" name="task-date" required>
-          </fieldset>
-          <button type="Submit" id="submit">Submit</button>
-          <button id="cancel">Cancel</button>
-      </form>
-      </div>
-    `;
+  /* METHOD TO VALIDATE SELECTS
+  ------------------------------------------------------ */
+  static selectValidation(e) {
+    // Set variables
+    let target = e.target;
+    let parent = target.parentElement;
 
-    main.insertAdjacentHTML("beforeend", modalHTML);
+    if (target.selectedIndex == 0){
+        target.style.borderColor = "red";
+        return false;
+    }else {
+      target.style.borderColor = "green";
+      return true;
+    }
+  }
+
+    /* METHOD TO VALIDATE DATE
+  ------------------------------------------------------ */
+  static dateValidation(e) {
+    let target = e.target;
+    let parent = target.parentElement;
+
+    if(target.value == 0 || target.value == ''){
+      target.style.borderColor = 'red';
+      return false;
+    }else {
+      target.style.borderColor = 'green';
+      return true;
+    }
   }
 }

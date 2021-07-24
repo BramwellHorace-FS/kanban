@@ -1,5 +1,5 @@
 // Data object
-class Task {
+class TaskItem {
     constructor(){
         this.title;
         this.description;

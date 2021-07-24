@@ -13,6 +13,36 @@
         <a href=""><img src="images/headshot.jpg" alt="User profile image"></a>
     </header>
     <main></main>
+
+    <!-- Modal -->
+    <div class = "dialog" role="dialog" aria-labelledby="dialog_title">
+        <form action = "" method = "POST">
+          <h2 id = "dialog_title">Add Task</h2>
+            <fieldset>
+              <label for = "title">Title</label>
+              <input type="text" name="Title" id="title" placeholder="Enter Task Ttile">
+            </fieldset>
+            <fieldset>
+              <label for="description">Description</label>
+              <textarea name="Description" id="description" cols="50" rows="10" placeholder="Enter task description"></textarea>
+            </fieldset>
+            <fieldset>
+              <label for="priority">Piority</label>
+              <select id="priority" name="Priority" required>
+                <option value="Select">Select</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </fieldset>
+            <fieldset>
+              <label for="date">Due Date</label>
+              <input type="date" id="date" name="Date">
+            </fieldset>
+            <button id = "submit" type = "submit">Submit</button>
+            <button id = "cancel">Cancel</button>
+          </form>
+        </div>
     <!-- js files -->
     <script src="js/utils.js"></script>
     <script src="js/task.js"></script>
