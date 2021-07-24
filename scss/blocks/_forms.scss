@@ -70,3 +70,16 @@ form {
     }
   }
 }
+
+#img-upload-dialog__form {
+  button {
+    width: calc(40% - 0.5rem);
+  }
+
+  fieldset {
+    label {
+      font-size: 1.4rem;
+      padding: 0 0 1rem;
+    }
+  }
+}

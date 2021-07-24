@@ -12,6 +12,7 @@ class App {
 
     // Load Data
     this.fecthData();
+    this.changeImage();
 
     // Main event listener
     this.main.addEventListener("click", (e) => this.collectData(e));
@@ -135,30 +136,30 @@ class App {
 
       let titleValidity = false;
       let descripValidity = false;
-      let priorityValidity = false; 
+      let priorityValidity = false;
       let dateValidity = false;
 
       // Validate Inputs
-      title.addEventListener('input', e => {
+      title.addEventListener("input", (e) => {
         let valid = Utils.inputValidation(e);
         titleValidity = this.checkValidity(valid, titleValidity);
       });
 
-      description.addEventListener('input', e => {
+      description.addEventListener("input", (e) => {
         let valid = Utils.inputValidation(e);
         descripValidity = this.checkValidity(valid, descripValidity);
       });
 
-      priority.addEventListener('change', e => {
+      priority.addEventListener("change", (e) => {
         let valid = Utils.selectValidation(e);
         priorityValidity = this.checkValidity(valid, descripValidity);
       });
 
-      date.addEventListener('change', e => {
+      date.addEventListener("change", (e) => {
         let valid = Utils.dateValidation(e);
         dateValidity = this.checkValidity(valid, dateValidity);
-      })
-    
+      });
+
       // Form buttons
       const cancelBtn = document.querySelector("#cancel");
       const submitBtn = document.querySelector("#submit");
@@ -170,21 +171,22 @@ class App {
 
       // Add event listener to submit button
       submitBtn.addEventListener("click", (e) => {
-
         const validities = [];
-    
-        validities.push({input: title, valid: titleValidity}, 
-        {input: description, valid: descripValidity}, 
-        {input: priority, valid: priorityValidity},
-        {input: date, valid: dateValidity})
+
+        validities.push(
+          { input: title, valid: titleValidity },
+          { input: description, valid: descripValidity },
+          { input: priority, valid: priorityValidity },
+          { input: date, valid: dateValidity }
+        );
 
         // Check if all inputs are valid
         let valid = validities.every((e) => {
-            return e.valid == true;
+          return e.valid == true;
         });
 
         // Conditional
-        if(valid) {
+        if (valid) {
           // Create new taskItem
           const newTask = new TaskItem();
           newTask.title = title.value.trim();
@@ -197,25 +199,23 @@ class App {
 
           // Post to API
           this.postData(newTask, sectionID);
-
-        }else {
+        } else {
           validities.forEach((input) => {
-            if(input.valid == false) {
-              input.input.style.borderColor = 'red';
+            if (input.valid == false) {
+              input.input.style.borderColor = "red";
             }
-          })
+          });
         }
       });
     }
   }
 
-   /* METHOD USED TO CHECK VALID VALUES
+  /* METHOD USED TO CHECK VALID VALUES
   ------------------------------------------------------------- */
-  checkValidity(valid, validity){
-
-    if(valid == true) {
+  checkValidity(valid, validity) {
+    if (valid == true) {
       validity = true;
-    }else if (valid == false) {
+    } else if (valid == false) {
       validity = false;
     }
 
@@ -234,35 +234,37 @@ class App {
     }
   }
 
-
   /* METHOD USED DISPLAY NEW TASK
   ------------------------------------------------------------- */
-  addTask(taskItem,ID){
-    const sections = document.querySelectorAll('section');
+  addTask(taskItem, ID) {
+    const sections = document.querySelectorAll("section");
     const articleHTML = `
     <article class="task">
-      <p class="task__priority" data-priority="${taskItem.priority.toLowerCase()}">${taskItem.priority}</p>
+      <p class="task__priority" data-priority="${taskItem.priority.toLowerCase()}">${
+      taskItem.priority
+    }</p>
       <h3>${taskItem.title}</h3>
       <p>${taskItem.description}</p>
-      <p class="task__date"><time datetime="2021-08-07">${taskItem.date}</time></p>
+      <p class="task__date"><time datetime="2021-08-07">${
+        taskItem.date
+      }</time></p>
     </article>`;
-    ;
-
-    sections[ID-1].querySelector('header').insertAdjacentHTML('afterend', articleHTML);
+    sections[ID - 1]
+      .querySelector("header")
+      .insertAdjacentHTML("afterend", articleHTML);
   }
-
 
   /* METHOD USED TO DISPLAY MODAL
   ------------------------------------------------------------- */
   displayModal() {
-    document.querySelector(".dialog").style.display = "flex";
+    document.querySelector("#add-task-dialog").style.display = "flex";
     window.addEventListener("scroll", Utils.disableScroll);
   }
 
   /* METHOD USED TO HIDE MODAL
   ------------------------------------------------------------ */
   hideModal() {
-    document.querySelector(".dialog").style.display = "none";
+    document.querySelector("#add-task-dialog").style.display = "none";
     window.removeEventListener("scroll", Utils.disableScroll);
   }
 
@@ -270,7 +272,7 @@ class App {
   ------------------------------------------------------------ */
   postData(data, ID) {
     const URL = `https://${this.projectName}.glitch.me/api/items?accessToken=${this.accessToken}`;
-  
+
     // task to send
     const taskToSend = {
       title: data.title,
@@ -304,7 +306,59 @@ class App {
         console.log(error);
       });
 
-      this.addTask(data, ID);
+    this.addTask(data, ID);
+  }
+
+  /* METHOD USED FOR LOCAL STORAGE
+  ------------------------------------------------------------ */
+  changeImage() {
+    // grab image
+    const img = document.querySelector("img");
+    const form = document.querySelector("#img-upload-dialog__form");
+    const closeBtn = document.querySelector("#close");
+    const dialog = document.querySelector("#img-upload-dialog");
+
+    // Add event listener
+    img.addEventListener("click", (e) => {
+      dialog.style.display = "flex";
+      window.addEventListener("scroll", Utils.disableScroll);
+      const avatar = document.querySelector("#avatar");
+      avatar.addEventListener("change", function () {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          localStorage.setItem('recent-avatar', reader.result);
+        });
+        reader.readAsDataURL(this.files[0]);
+      });
+    });
+
+
+    // Prevent link from refreshing page
+    const link = document.querySelector("a");
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+    });
+
+    // Close button
+    closeBtn.addEventListener("click", () => {
+      dialog.style.display = "none";
+      window.removeEventListener("scroll", Utils.disableScroll);
+    });
+
+    // Form
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const recentAvatarURL = localStorage.getItem('recent-avatar');
+
+      if(recentAvatarURL) {
+        img.setAttribute('src', recentAvatarURL);
+      }
+
+      dialog.style.display = "none";
+      window.removeEventListener("scroll", Utils.disableScroll);
+
+    });
   }
 }
 

@@ -15,7 +15,7 @@
     <main></main>
 
     <!-- Modal -->
-    <div class = "dialog" role="dialog" aria-labelledby="dialog_title">
+    <div id = "add-task-dialog" role="dialog" aria-labelledby="dialog_title">
         <form action = "" method = "POST">
           <h2 id = "dialog_title">Add Task</h2>
             <fieldset>
@@ -43,6 +43,19 @@
             <button id = "cancel">Cancel</button>
           </form>
         </div>
+
+    <!-- Image upload dialog -->
+    <div id = "img-upload-dialog" role="dialog" aria-labelledby="dialog_title">
+      <form id = "img-upload-dialog__form">
+        <h2>Image Upload</h2>
+        <fieldset>
+          <label form = "avatar">Upload new avatar</label>
+          <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+        </fieldset>
+        <button type = "submit">Submit</button>
+        <button id = "close">close</button>
+      </form>
+    </div>`
     <!-- js files -->
     <script src="js/utils.js"></script>
     <script src="js/task.js"></script>

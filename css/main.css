@@ -231,7 +231,7 @@ article {
     background: #f7e3e2;
     color: #933831; }
 
-.dialog {
+#add-task-dialog, #img-upload-dialog {
   position: absolute;
   top: 0;
   left: 0;
@@ -294,3 +294,10 @@ form {
     margin: 0 2.2rem 2rem; }
     form button:nth-of-type(1) {
       margin-right: 1rem; }
+
+#img-upload-dialog__form button {
+  width: calc(40% - 0.5rem); }
+
+#img-upload-dialog__form fieldset label {
+  font-size: 1.4rem;
+  padding: 0 0 1rem; }
