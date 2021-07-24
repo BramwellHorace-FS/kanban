@@ -120,7 +120,10 @@ header {
   header a {
     display: block;
     width: 5.5rem;
-    height: 5.5rem; }
+    height: 5.5rem;
+    border: 0.2rem solid rgba(103, 85, 157, 0.1);
+    border-radius: 50%;
+    box-shadow: 0 0.1rem 0.2rem 0.1rem #575758; }
     @media (min-width: 830px) {
       header a {
         width: 6.5rem;

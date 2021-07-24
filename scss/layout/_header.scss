@@ -27,6 +27,9 @@ header {
         display: block;
         width: 5.5rem;
         height: 5.5rem;
+        border: 0.2rem solid $accent-border1;
+        border-radius: 50%;
+        box-shadow: 0 0.1rem 0.2rem 0.1rem $accent-dark2;
 
         @media (min-width: 830px) {
             width: 6.5rem;
