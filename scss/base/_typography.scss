@@ -62,13 +62,16 @@ p {
     font-weight: $regular-weight;
     margin: 1.5rem 0;
     color: $accent-dark2;
+    line-height: 2.4rem;
 
     @media (min-width: 600px) {
         font-size: 1.8rem;
+        line-height: 2.7rem;
     }
 
     @media (min-width: 1200px) {
         font-size: 2rem;
+        line-height: 3rem;
     }
 }
 

@@ -7,3 +7,20 @@ button {
         cursor: pointer;
     }
 }
+
+#openColor {
+    background: $accent-color4 no-repeat 1.5rem/50% url(../images/color.png);
+    position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px $accent-color1;
+    
+    p {
+        text-indent: -9999px;
+    }
+
+}

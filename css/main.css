@@ -11,6 +11,29 @@ button, section:nth-of-type(2) header button, section:nth-of-type(3) header butt
     button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, form button {
       font-size: 1.5rem; } }
 
+#taskModal .taskModal__window, #imgUploadModal .imgUploadModal__window, #colorModal .colorModal__window {
+  display: inline-block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 0.2rem solid #9393C3;
+  border-radius: 0.5rem 0.5rem 0 0;
+  z-index: 101; }
+
+#imgUploadModal__Overlay,
+#taskModal__Overlay,
+#colorModal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(22, 31, 38, 0.2);
+  overflow: hidden;
+  z-index: 100; }
+
 body, nav, section, footer, article, h1, h2, h3, p, a, ul, li, dt, dd, input, textarea {
   margin: 0;
   padding: 0;
@@ -69,13 +92,16 @@ p {
   font-family: #161f26;
   font-weight: 500;
   margin: 1.5rem 0;
-  color: #575758; }
+  color: #575758;
+  line-height: 2.4rem; }
   @media (min-width: 600px) {
     p {
-      font-size: 1.8rem; } }
+      font-size: 1.8rem;
+      line-height: 2.7rem; } }
   @media (min-width: 1200px) {
     p {
-      font-size: 2rem; } }
+      font-size: 2rem;
+      line-height: 3rem; } }
 
 form {
   font-family: "Heebo", sans-serif; }
@@ -123,14 +149,15 @@ header {
     height: 5.5rem;
     border: 0.2rem solid rgba(103, 85, 157, 0.1);
     border-radius: 50%;
-    box-shadow: 0 0.1rem 0.2rem 0.1rem #575758; }
+    box-shadow: 0 0.1rem 0.2rem 0.1rem #575758;
+    overflow: hidden; }
     @media (min-width: 830px) {
       header a {
         width: 6.5rem;
         height: 6.5rem; } }
     header a img {
       width: 100%;
-      border-radius: 50%; }
+      height: -webkit-fill-available; }
 
 main {
   display: grid;
@@ -155,6 +182,19 @@ button {
   button:hover {
     opacity: 0.8;
     cursor: pointer; }
+
+#openColor {
+  background: #9393C3 no-repeat 1.5rem/50% url(../images/color.png);
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #67559d; }
+  #openColor p {
+    text-indent: -9999px; }
 
 section {
   height: fit-content;
@@ -231,22 +271,68 @@ article {
     background: #f7e3e2;
     color: #933831; }
 
-#add-task-dialog, #img-upload-dialog {
+#add-task-dialog,
+#img-upload-dialog {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  display: flex;
   height: 100%;
-  display: none;
   justify-content: center;
   align-items: center;
   background: rgba(22, 31, 38, 0.2); }
 
+#taskModal .taskModal__window h2 {
+  color: #fff;
+  background: #9393C3;
+  font-weight: 600;
+  padding: 2rem 4rem; }
+
+#imgUploadModal .imgUploadModal__window h2 {
+  color: #fff;
+  background: #9393C3;
+  font-weight: 600;
+  padding: 2rem 4rem; }
+
+#colorModal form input {
+  height: 8rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent; }
+
+#colorModal .colorModal__window h2 {
+  color: #fff;
+  background: #9393C3;
+  font-weight: 600;
+  padding: 2rem 4rem;
+  font-size: 2rem; }
+
+#closeButton,
+#closeButton2,
+#closeButton3 {
+  background-color: transparent;
+  background-image: none;
+  padding: 0;
+  margin: 0;
+  float: right;
+  position: absolute;
+  top: 2rem;
+  left: 90%;
+  height: 2.5rem;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 500;
+  text-indent: 0; }
+
+[role="dialog"][hidden] {
+  visibility: hidden; }
+
 form {
   background: #fff;
   border-radius: 0.5rem;
-  border: 1px solid #9393C3;
-  max-width: 85%; }
+  max-width: 100%; }
   form h2 {
     color: #fff;
     background: #9393C3;
@@ -278,8 +364,7 @@ form {
       border-radius: 0.4rem;
       display: block;
       width: 100%;
-      padding: 1rem;
-      outline: none; }
+      padding: 1rem; }
     form fieldset textarea {
       resize: none; }
   form button {
@@ -288,15 +373,13 @@ form {
     text-indent: 1rem;
     background-image: none;
     text-indent: 0;
-    width: calc(43% - 0.5rem);
+    width: calc(50% - 4rem);
     display: block;
     float: left;
-    margin: 0 2.2rem 2rem; }
-    form button:nth-of-type(1) {
-      margin-right: 1rem; }
+    margin: 2rem; }
 
 #img-upload-dialog__form button {
-  width: calc(40% - 0.5rem); }
+  width: calc(42% - 0.5rem); }
 
 #img-upload-dialog__form fieldset label {
   font-size: 1.4rem;

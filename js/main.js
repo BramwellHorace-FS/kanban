@@ -12,7 +12,8 @@ class App {
 
     // Load Data
     this.fecthData();
-    this.changeImage();
+    this.loadFromStorage();
+    this.loadColor();
 
     // Main event listener
     this.main.addEventListener("click", (e) => this.collectData(e));
@@ -28,6 +29,96 @@ class App {
       throw "App is currently running";
     }
   }
+
+  /* METHOD USED TO LOAD COLORS
+  ------------------------------------------ */
+  loadColor() {
+    // Body children
+    const childrenArr = Array.from(document.body.children);
+    const closeBtn = document.querySelector("#closeButton3");
+    const cancelBtn = document.querySelector("#cancelButton3");
+    const submitBtn = document.querySelector("#okButton");
+    const modal = document.querySelector("#colorModal");
+    const modalOverlay = document.querySelector("#colorModal__overlay");
+    const form = document.querySelector("#colorModal__form");
+    const btn = document.querySelector("#openColor");
+    let previousActiveElement;
+    previousActiveElement = document.activeElement;
+
+    // Event listener
+    btn.addEventListener("click", displayModal);
+
+    // Display Modal Medthod
+    function displayModal() {
+      modal.hidden = false;
+      window.addEventListener("scroll", Utils.disableScroll);
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+      });
+
+      document.querySelector('#color-picker').focus();
+
+      disable();
+      // Rename
+      addListener(closeBtn);
+      addListener(modalOverlay);
+      addListener(cancelBtn);
+
+      // Submit button
+      submitBtn.addEventListener("click", formSubmit);
+      submitBtn.addEventListener("keydown", (e) => {
+        if (e.key == "enter") {
+          formSubmit();
+        }
+      });
+    }
+
+    // Close Modal
+    function closeModal() {
+      modal.hidden = true;
+      window.removeEventListener("scroll", Utils.disableScroll);
+      reEnable();
+      previousActiveElement.focus();
+    }
+
+    // OnSubmit
+    function formSubmit() {
+      const color = document.querySelector("#color-picker").value;
+      document.querySelector("body").style.backgroundColor = color;
+      closeModal();
+    }
+
+    // Add listners
+    function addListener(ele) {
+      ele.addEventListener("click", () => {
+        closeModal();
+      });
+
+      ele.addEventListener("keydown", (e) => {
+        if (e.key == "enter") {
+          closeModal();
+        }
+      });
+    }
+
+    // Disable body elements
+    function disable() {
+      childrenArr.forEach((child) => {
+        if (child !== modal) {
+          child.inert = true;
+        }
+      });
+    }
+
+    // ReEnable body children
+    function reEnable() {
+      childrenArr.forEach((child) => {
+        if (child.inert) {
+          child.inert = false;
+        }
+      });
+    }
+  } // ****** End of Load Color Method ******
 
   /* METHOD USED TO FECTH DATA FROM THE API
   ------------------------------------------------------------------------------------------------ */
@@ -52,7 +143,8 @@ class App {
       .catch((err) => {
         console.log(err);
       });
-  }
+
+  } // ****** End of fetchdata ******
 
   /* METHOD USED TO DISPLAY DATA
   -------------------------------------------------------------------- */
@@ -88,21 +180,17 @@ class App {
         // Article (Tasks) HTML
         const articleHTML = `
         <article class="task">
-            <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${
-          item.priority
-        }</p>
+            <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${item.priority}</p>
             <h3>${item.title}</h3>
             <p>${item.description}</p>
-            <p class="task__date"><time datetime="2021-08-07">${
-              item.dueDate
-            }</time></p>
+            <p class="task__date"><time datetime="2021-08-07">${item.dueDate}</time></p>
         </article>`;
 
         // Add to section
         sections[i].insertAdjacentHTML("beforeend", articleHTML);
       });
     }
-  }
+  } // ****** End of display method ******
 
   /* METHOD USED GATHER DATA FROM USER
   --------------------------------------------------------------------- */
@@ -121,7 +209,7 @@ class App {
       this.displayModal();
 
       // Form
-      const form = document.querySelector("form");
+      const form = document.querySelector("#taskModal__form");
 
       // Disable form default
       form.addEventListener("submit", (e) => {
@@ -161,13 +249,7 @@ class App {
       });
 
       // Form buttons
-      const cancelBtn = document.querySelector("#cancel");
-      const submitBtn = document.querySelector("#submit");
-
-      // Add event listener to cancel button
-      cancelBtn.addEventListener("click", (e) => {
-        this.hideModal();
-      });
+      const submitBtn = document.querySelector("#submitButton");
 
       // Add event listener to submit button
       submitBtn.addEventListener("click", (e) => {
@@ -208,7 +290,7 @@ class App {
         }
       });
     }
-  }
+  } // ****** End of collectData ******
 
   /* METHOD USED TO CHECK VALID VALUES
   ------------------------------------------------------------- */
@@ -220,7 +302,8 @@ class App {
     }
 
     return validity;
-  }
+
+  } // ****** End of checkValidity ******
 
   /* METHOD USED TO ADD ERROR ON SUBMIT
   ------------------------------------------------------------- */
@@ -232,41 +315,106 @@ class App {
     if (!parent.querySelector(".error")) {
       parent.insertAdjacentHTML("beforeend", error);
     }
-  }
 
+  } // ****** End of addError ******
+  
   /* METHOD USED DISPLAY NEW TASK
   ------------------------------------------------------------- */
   addTask(taskItem, ID) {
     const sections = document.querySelectorAll("section");
     const articleHTML = `
     <article class="task">
-      <p class="task__priority" data-priority="${taskItem.priority.toLowerCase()}">${
-      taskItem.priority
-    }</p>
+      <p class="task__priority" data-priority="${taskItem.priority.toLowerCase()}">${taskItem.priority}</p>
       <h3>${taskItem.title}</h3>
       <p>${taskItem.description}</p>
-      <p class="task__date"><time datetime="2021-08-07">${
-        taskItem.date
-      }</time></p>
+      <p class="task__date"><time datetime="2021-08-07">${taskItem.date}</time></p>
     </article>`;
     sections[ID - 1]
       .querySelector("header")
       .insertAdjacentHTML("afterend", articleHTML);
-  }
+
+  } // ****** End of addTask ******
 
   /* METHOD USED TO DISPLAY MODAL
   ------------------------------------------------------------- */
   displayModal() {
-    document.querySelector("#add-task-dialog").style.display = "flex";
+    const modal = document.querySelector("#taskModal");
+    const modalOverlay = document.querySelector("#taskModal__Overlay");
+    const closeBtn = document.querySelector("#closeButton");
+    const cancelBtn = document.querySelector("#cancelButton");
+    const form = document.querySelector("#taskModal__form");
+
+    let previousActiveElement;
+
+    previousActiveElement = document.activeElement;
+
+    this.addInert(modal);
+
+    modal.hidden = false;
     window.addEventListener("scroll", Utils.disableScroll);
-  }
+
+    const eleArry = [modalOverlay, closeBtn, cancelBtn];
+
+    eleArry.forEach((ele) => {
+      ele.addEventListener("click", () => {
+        this.removeInert(modal);
+        previousActiveElement.focus();
+        modal.hidden = true;
+        window.removeEventListener("scroll", Utils.disableScroll);
+      });
+
+      ele.addEventListener("keydown", (e) => {
+        if (e.key == "enter") {
+          this.removeInert(modal);
+          previousActiveElement.focus();
+          modal.hidden = true;
+          window.removeEventListener("scroll", Utils.disableScroll);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key == "Escape") {
+        this.removeInert(modal);
+        modal.hidden = true;
+        window.removeEventListener("scroll", Utils.disableScroll);
+      }
+    });
+
+    modal.querySelector("input").focus();
+
+  } // ****** End of DisplayModal ******
+
+  /* METHOD USED TO REMOVE INERT ATTRIBUTE
+  ------------------------------------------------------------ */
+  removeInert(element) {
+    Array.from(document.body.children).forEach((child) => {
+      if (child !== element) {
+        child.inert = false;
+      }
+    });
+
+  } // ****** End of removeInert ******
+
+  /* METHOD USED TO ADD INERT ATTRIBUTE
+  ------------------------------------------------------------ */
+  addInert(element) {
+    Array.from(document.body.children).forEach((child) => {
+      if (child !== element) {
+        child.inert = true;
+      }
+    });
+
+  } // ****** End of addInert ******
 
   /* METHOD USED TO HIDE MODAL
   ------------------------------------------------------------ */
   hideModal() {
-    document.querySelector("#add-task-dialog").style.display = "none";
+    const modal = document.querySelector("#taskModal");
     window.removeEventListener("scroll", Utils.disableScroll);
-  }
+    modal.hidden = true;
+
+  } // ****** End of hideModal ******
 
   /* METHOD USED POST TO THE API
   ------------------------------------------------------------ */
@@ -307,31 +455,89 @@ class App {
       });
 
     this.addTask(data, ID);
-  }
 
-  /* METHOD USED FOR LOCAL STORAGE
+  } // ****** End of postData ******
+
+  /* METHOD USED TO DISPLAY IMAGE UPLOAD MODAL
   ------------------------------------------------------------ */
-  changeImage() {
-    // grab image
-    const img = document.querySelector("img");
-    const form = document.querySelector("#img-upload-dialog__form");
-    const closeBtn = document.querySelector("#close");
-    const dialog = document.querySelector("#img-upload-dialog");
+  displayUploadModal() {
+    const modal = document.querySelector("#imgUploadModal");
+    const modalOverlay = document.querySelector("#imgUploadModal__Overlay");
+    const modalWindow = document.querySelector(".imgUploadModal__window");
+    const cancelBtn = document.querySelector("#cancelUploadButton");
+    const closeBtn = document.querySelector("#closeButton2");
+    const enter = "enter";
+    const esc = "Escape";
 
-    // Add event listener
+    let previousActiveElement;
+    previousActiveElement = document.activeElement;
+
+    // Display modal
+    this.addInert(modal);
+    modal.hidden = false;
+    window.addEventListener("scroll", Utils.disableScroll);
+    modal.querySelector("#avatar").focus();
+
+
+    // Array
+    const eleArry = [modalOverlay, closeBtn, cancelBtn];
+
+    // Addevent Listeners
+    eleArry.forEach((ele) => {
+      ele.addEventListener("click", () => {
+        this.removeInert(modal);
+        previousActiveElement.focus();
+        modal.hidden = true;
+        window.removeEventListener("scroll", Utils.disableScroll);
+      });
+
+      ele.addEventListener("keydown", (e) => {
+        if (e.key == enter) {
+          this.removeInert(modal);
+          previousActiveElement.focus();
+          modal.hidden = true;
+          window.removeEventListener("scroll", Utils.disableScroll);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key == esc) {
+        this.removeInert(modal);
+        modal.hidden = true;
+        window.removeEventListener("scroll", Utils.disableScroll);
+      }
+    });
+
+  } // ****** End of displayUploadModal ******
+
+  /* METHOD USED FOR LOCALSTORAGE
+  ------------------------------------------------------------ */
+  loadFromStorage() {
+    const img = document.querySelector("img");
+    const form = document.querySelector("#imgUploadModal__form");
+    const uploadBtn = document.querySelector("#uploadButton");
+
+    // Add event listener to image
     img.addEventListener("click", (e) => {
-      dialog.style.display = "flex";
-      window.addEventListener("scroll", Utils.disableScroll);
+      this.displayUploadModal();
       const avatar = document.querySelector("#avatar");
       avatar.addEventListener("change", function () {
         const reader = new FileReader();
         reader.addEventListener("load", () => {
-          localStorage.setItem('recent-avatar', reader.result);
+          localStorage.setItem("recent-avatar", reader.result);
         });
         reader.readAsDataURL(this.files[0]);
       });
     });
 
+    // Load last image on load
+    document.addEventListener("DOMContentLoaded", () => {
+      const recentAvatarURL = localStorage.getItem("recent-avatar");
+      if (recentAvatarURL) {
+        img.setAttribute("src", recentAvatarURL);
+      }
+    });
 
     // Prevent link from refreshing page
     const link = document.querySelector("a");
@@ -339,28 +545,27 @@ class App {
       e.preventDefault();
     });
 
-    // Close button
-    closeBtn.addEventListener("click", () => {
-      dialog.style.display = "none";
+    // upload button
+    uploadBtn.addEventListener("click", () => {
+      const recentAvatarURL = localStorage.getItem("recent-avatar");
+
+      if (recentAvatarURL) {
+        img.setAttribute("src", recentAvatarURL);
+      }
+
       window.removeEventListener("scroll", Utils.disableScroll);
+      const modal = (document.querySelector("#imgUploadModal").hidden = true);
+      this.removeInert(modal);
     });
 
     // Form
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-
-      const recentAvatarURL = localStorage.getItem('recent-avatar');
-
-      if(recentAvatarURL) {
-        img.setAttribute('src', recentAvatarURL);
-      }
-
-      dialog.style.display = "none";
-      window.removeEventListener("scroll", Utils.disableScroll);
-
     });
-  }
-}
+
+  } // ****** End of LocalStorage ******
+
+} // ****** End App Class ******
 
 /* STARTS APPLICATION
 --------------------------------- */

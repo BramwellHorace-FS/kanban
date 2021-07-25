@@ -14,49 +14,83 @@
     </header>
     <main></main>
 
-    <!-- Modal -->
-    <div id = "add-task-dialog" role="dialog" aria-labelledby="dialog_title">
-        <form action = "" method = "POST">
-          <h2 id = "dialog_title">Add Task</h2>
-            <fieldset>
-              <label for = "title">Title</label>
-              <input type="text" name="Title" id="title" placeholder="Enter Task Ttile">
-            </fieldset>
-            <fieldset>
-              <label for="description">Description</label>
-              <textarea name="Description" id="description" cols="50" rows="10" placeholder="Enter task description"></textarea>
-            </fieldset>
-            <fieldset>
-              <label for="priority">Piority</label>
-              <select id="priority" name="Priority" required>
-                <option value="Select">Select</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </fieldset>
-            <fieldset>
-              <label for="date">Due Date</label>
-              <input type="date" id="date" name="Date">
-            </fieldset>
-            <button id = "submit" type = "submit">Submit</button>
-            <button id = "cancel">Cancel</button>
-          </form>
-        </div>
+    <!-- Add Task Modal -->
+    <div id="taskModal" role="dialog" aria-labelledby="taskModal__title" hidden>
+      <div class="taskModal__window">
+        <h2 id="taskModal__title">Add Task</h2>
+        <form id="taskModal__form" action="/" method="POST">
+          <fieldset>
+            <label for = "title">Title</label>
+            <input type="text" name="Title" id="title" placeholder="Enter Task Ttile">
+          </fieldset>
+          <fieldset>
+            <label for="description">Description</label>
+            <textarea name="Description" id="description" cols="50" rows="5" placeholder="Enter task description"></textarea>
+          </fieldset>
+          <fieldset>
+            <label for="priority">Piority</label>
+            <select id="priority" name="Priority">
+              <option value="Select">Select</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label for="date">Due Date</label>
+            <input type="date" id="date" name="Date">
+          </fieldset>
+          <button id = "submitButton" type = "submit">Submit</button>
+          <button id = "cancelButton" title="Cancel adding task">Cancel</button>
+        </form>
+        <button id="closeButton">X</button>
+      </div>
+      <div id="taskModal__Overlay"></div>
+    </div>
 
+ 
     <!-- Image upload dialog -->
-    <div id = "img-upload-dialog" role="dialog" aria-labelledby="dialog_title">
-      <form id = "img-upload-dialog__form">
-        <h2>Image Upload</h2>
-        <fieldset>
-          <label form = "avatar">Upload new avatar</label>
-          <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
-        </fieldset>
-        <button type = "submit">Submit</button>
-        <button id = "close">close</button>
-      </form>
-    </div>`
+    <div id="imgUploadModal" role="dialog" aria-labelledby="imgUploadModal__title" hidden>
+      <div class="imgUploadModal__window">
+          <h2 id="imgUploadModal__title">Change Profile Image</h2>
+          <form id="imgUploadModal__form" action="/">
+            <fieldset>
+              <label for = "avatar">Upload new avatar</label>
+              <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+            </fieldset>
+            <button id = "uploadButton" type = "submit">Upload</button>
+            <button id = "cancelUploadButton" title="Cancel adding task">Cancel</button>
+          </form>
+          <button id="closeButton2">X</button>
+      </div>
+      <div id="imgUploadModal__Overlay"></div>
+    </div>
+
+
+    <!-- Test modal -->
+    <div id="colorModal" role="dialog" aria-labelledby="colorModal__title" hidden>
+      <div class="colorModal__window">
+        <h2 id="colorModal__title">Choose Background Color</h2>
+        <form action="/" id="colorModal__form">
+          <fieldset>
+            <label for="color-picker">Select a color</label>
+            <input type="color" name="color-picker" id="color-picker">
+          </fieldset>
+          <button id="okButton">Ok</button>
+          <button id="cancelButton3">Cancel</button>
+        </form>
+        <button id="closeButton3">X</button>
+      </div>
+      <div id="colorModal__overlay"></div>
+    </div>
+
+
+    <button id="openColor">
+      <p>Change background color</p>
+    </button>
+
     <!-- js files -->
+    <script src="js/inert.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/task.js"></script>
     <script defer src="js/main.js"></script>
