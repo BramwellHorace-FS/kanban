@@ -1,38 +1,90 @@
-/* UTILITY CLASS
---------------------------- */
 class Utils {
   constructor() {}
 
-  /* STATIC METHOD USED DISABLE SCROLL
-  ------------------------------------------------------ */
-  static disableScroll() {
+  static disableScrolling() {
     window.scrollTo(0, 0);
   }
 
-  /* METHOD TO VALIDATE TEXT & TEXTAREA INPUTS
-  ------------------------------------------------------ */
-  static inputValidation(e) {
-    // Set variables
-    let target = e.target;
-    let parent = target.parentElement;
-    let charLen = 0;
+  static displayModal(modalElements) {
+    let modal = modalElements.modal;
+    let closeButton = modalElements.closeButton;
+    let modalOverlay = modalElements.modalOverlay;
+    let cancelButton = modalElements.cancelButton;
+    let previousActiveElement = document.activeElement;
 
-    // Set character length based on target
-    if (target.name == "Title") {
-      charLen = 5;
-    } else {
-      charLen = 20;
+    modal.hidden = false;
+    window.addEventListener("scroll", Utils.disableScrolling);
+    modalElements.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+    });
+
+    document.querySelector("input").focus();
+    enableInert();
+    enableExitTriggers();
+    // onFormSubmit();
+
+    /** Enable inert **/
+    function enableInert() {
+      const bodyChildren = Array.from(document.body.children);
+      bodyChildren.forEach((child) => {
+        if (child !== modal) child.inert = true;
+      });
     }
 
-    // Create label to display error
-    const error = `<label class = "error" for = "${target.id}">${target.name} should be at least ${charLen} characters long.</label>`;
-    // const success = `<label class = "success" for = "${target.id}">${target.name} is at least ${charLen} characters long.</label>`;
+    /** Event triggers **/
+    function enableExitTriggers() {
+      const exitTriggers = [closeButton, modalOverlay, cancelButton];
 
+      const KEYCODE = { ESC: 27 };
+      const KEY = { ESCAPE: "Escape" };
 
-    // Add error message to parent element
-    if (target.value.trim() == 0 || target.value.trim().length < charLen) {
+      exitTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', exitModal);
+      })
+
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == KEYCODE.ESC || e.key == KEY.ESCAPE) {
+          exitModal();
+        }
+      });
+    }
+
+    /** Exit Modal **/
+    function exitModal() {
+      modal.hidden = true;
+      window.removeEventListener("scroll", Utils.disableScrolling);
+      disableInert();
+      previousActiveElement.focus();
+    }
+
+    /** Disable Inert **/
+    function disableInert() {
+      const bodyChildren = Array.from(document.body.children);
+      bodyChildren.forEach((child) => {
+        if (child !== modal) child.inert = false;
+      });
+    }
+  }
+
+  static inputValidation(e) {
+    let target = e.target;
+    let parent = target.parentElement;
+    let characterLength = 0;
+
+    if (target.name == "Title") {
+      characterLength = 5;
+    } else {
+      characterLength = 20;
+    }
+
+    const errorLabel = `<label class = "error" for = "${target.id}">${target.name} should be at least ${characterLength} characters long.</label>`;
+
+    if (
+      target.value.trim() == 0 ||
+      target.value.trim().length < characterLength
+    ) {
       if (!parent.querySelector(".error")) {
-        parent.insertAdjacentHTML("beforeend", error);
+        parent.insertAdjacentHTML("beforeend", errorLabel);
         target.style.borderColor = "red";
         return false;
       }
@@ -45,34 +97,65 @@ class Utils {
     }
   }
 
-  /* METHOD TO VALIDATE SELECTS
-  ------------------------------------------------------ */
   static selectValidation(e) {
-    // Set variables
     let target = e.target;
-    let parent = target.parentElement;
 
-    if (target.selectedIndex == 0){
-        target.style.borderColor = "red";
-        return false;
-    }else {
+    if (target.selectedIndex == 0) {
+      target.style.borderColor = "red";
+      return false;
+    } else {
       target.style.borderColor = "green";
       return true;
     }
   }
 
-    /* METHOD TO VALIDATE DATE
-  ------------------------------------------------------ */
   static dateValidation(e) {
     let target = e.target;
-    let parent = target.parentElement;
 
-    if(target.value == 0 || target.value == ''){
-      target.style.borderColor = 'red';
+    if (target.value == 0 || target.value == "") {
+      target.style.borderColor = "red";
       return false;
-    }else {
-      target.style.borderColor = 'green';
+    } else {
+      target.style.borderColor = "green";
       return true;
     }
   }
+
+  static disableInert(modal) {
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach((child) => {
+      if (child !== modal) child.inert = false;
+    });
+  }
+
+  /** Exit Modal **/
+  static exitModal(modal, previousActiveElement) {
+    modal.hidden = true;
+    window.removeEventListener("scroll", Utils.disableScrolling);
+    Utils.disableInert(modal);
+    previousActiveElement.focus();
+  }
+
+
+  static saveToLocalStorage(name,itemToSave){
+    localStorage.setItem(name,itemToSave);
+  }
+
+
+  static loadFromLocalStorage(){
+      const bodyElement = document.querySelector('body');
+      const userProfileImage = document.querySelector('#user-profile-img');
+
+      const recentUserImage = localStorage.getItem('recent-avatar');
+      const recentBackgroundColor = localStorage.getItem('color');
+
+      if(recentUserImage) {
+        userProfileImage.setAttribute('src', recentUserImage);
+      }
+
+      if (recentBackgroundColor) {
+        bodyElement.style.backgroundColor = recentBackgroundColor;
+      }
+  }
 }
+
