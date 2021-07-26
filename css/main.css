@@ -11,7 +11,7 @@ button, section:nth-of-type(2) header button, section:nth-of-type(3) header butt
     button, section:nth-of-type(2) header button, section:nth-of-type(3) header button, form button {
       font-size: 1.5rem; } }
 
-#taskModal .taskModal__window, #imgUploadModal .imgUploadModal__window, #colorModal .colorModal__window {
+#taskModal #taskModal_window, #imgUploadModal #imgUploadModal_window, #colorModal #colorModal_window {
   display: inline-block;
   position: fixed;
   top: 50%;
@@ -22,9 +22,9 @@ button, section:nth-of-type(2) header button, section:nth-of-type(3) header butt
   border-radius: 0.5rem 0.5rem 0 0;
   z-index: 101; }
 
-#imgUploadModal__Overlay,
-#taskModal__Overlay,
-#colorModal__overlay {
+#imgUploadModal_overlay,
+#taskModal_overlay,
+#colorModal_overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -143,8 +143,13 @@ header {
     font-weight: 600;
     font-size: 2.4rem;
     color: #161f26; }
-  header a {
+  header #avatar-btn {
+    text-indent: 0;
+    background-color: transparent;
+    background-image: none;
     display: block;
+    padding: 0;
+    margin: 0;
     width: 5.5rem;
     height: 5.5rem;
     border: 0.2rem solid rgba(103, 85, 157, 0.1);
@@ -152,10 +157,10 @@ header {
     box-shadow: 0 0.1rem 0.2rem 0.1rem #575758;
     overflow: hidden; }
     @media (min-width: 830px) {
-      header a {
+      header #avatar-btn {
         width: 6.5rem;
         height: 6.5rem; } }
-    header a img {
+    header #avatar-btn img {
       width: 100%;
       height: -webkit-fill-available; }
 
@@ -183,7 +188,7 @@ button {
     opacity: 0.8;
     cursor: pointer; }
 
-#openColor {
+#background-color-btn {
   background: #9393C3 no-repeat 1.5rem/50% url(../images/color.png);
   position: fixed;
   width: 60px;
@@ -193,7 +198,7 @@ button {
   border-radius: 50px;
   text-align: center;
   box-shadow: 2px 2px 3px #67559d; }
-  #openColor p {
+  #background-color-btn p {
     text-indent: -9999px; }
 
 section {
@@ -283,13 +288,13 @@ article {
   align-items: center;
   background: rgba(22, 31, 38, 0.2); }
 
-#taskModal .taskModal__window h2 {
+#taskModal #taskModal_window h2 {
   color: #fff;
   background: #9393C3;
   font-weight: 600;
   padding: 2rem 4rem; }
 
-#imgUploadModal .imgUploadModal__window h2 {
+#imgUploadModal #imgUploadModal_window h2 {
   color: #fff;
   background: #9393C3;
   font-weight: 600;
@@ -302,7 +307,7 @@ article {
   margin: 0;
   background-color: transparent; }
 
-#colorModal .colorModal__window h2 {
+#colorModal #colorModal_window h2 {
   color: #fff;
   background: #9393C3;
   font-weight: 600;
@@ -365,6 +370,8 @@ form {
       display: block;
       width: 100%;
       padding: 1rem; }
+    form fieldset input:focus, form fieldset textarea:focus, form fieldset select:focus {
+      outline: 3px solid #9393C3; }
     form fieldset textarea {
       resize: none; }
   form button {

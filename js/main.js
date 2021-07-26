@@ -50,8 +50,8 @@ class Controller {
 
   addEventListeners() {
     const addTaskButton = document.querySelector("main");
-    const backgroundColorButton = document.querySelector("#openColor");
-    const uploadImageButton = document.querySelector("img");
+    const backgroundColorButton = document.querySelector("#background-color-btn");
+    const uploadImageButton = document.querySelector("#avatar-btn");
 
     addTaskButton.addEventListener("click", (e) => this.getTaskData(e));
     backgroundColorButton.addEventListener("click", this.getBackgroundColor);
@@ -69,11 +69,11 @@ class Controller {
 
       const modalElements = {
         modal: document.querySelector("#taskModal"),
-        modalOverlay: document.querySelector("#taskModal__Overlay"),
+        modalOverlay: document.querySelector("#taskModal_overlay"),
         closeButton: document.querySelector("#closeButton"),
         cancelButton: document.querySelector("#cancelButton"),
         submitButton: document.querySelector("#submitButton"),
-        form: document.querySelector("#taskModal__form"),
+        form: document.querySelector("#taskModal_form"),
       };
 
       Utils.displayModal(modalElements);
@@ -168,11 +168,11 @@ class Controller {
   getBackgroundColor() {
     const bgColorModal = {
       modal: document.querySelector('#colorModal'),
-      modalOverlay: document.querySelector('#colorModal__overlay'),
+      modalOverlay: document.querySelector('#colorModal_overlay'),
       closeButton: document.querySelector('#closeButton3'),
       cancelButton: document.querySelector('#cancelButton3'),
       submitButton: document.querySelector('#okButton'),
-      form: document.querySelector('#colorModal__form'),
+      form: document.querySelector('#colorModal_form'),
     }
 
     bgColorModal.form.addEventListener('submit', e => {
@@ -181,7 +181,8 @@ class Controller {
 
     let previousActiveElement = document.activeElement;
 
-    document.querySelector('#openColor').addEventListener('click', Utils.displayModal(bgColorModal));
+    document.querySelector('#background-color-btn').addEventListener('click', Utils.displayModal(bgColorModal));
+    document.querySelector('#color-picker').focus();
 
     bgColorModal.submitButton.addEventListener('click', saveColor);
 
@@ -196,20 +197,18 @@ class Controller {
   getUserImage() {
     const imgUploadModal = {
       modal: document.querySelector('#imgUploadModal'),
-      modalOverlay: document.querySelector('#imgUploadModal__Overlay'),
+      modalOverlay: document.querySelector('#imgUploadModal_overlay'),
       closeButton: document.querySelector('#closeButton2'),
       cancelButton: document.querySelector('#cancelUploadButton'),
       submitButton: document.querySelector('#uploadButton'),
-      form: document.querySelector('#imgUploadModal__form'),
+      form: document.querySelector('#imgUploadModal_form'),
     }
 
     let previousActiveElement = document.activeElement;
 
-    document.querySelector('a').addEventListener('click', e => {
-      e.preventDefault();
-    });
-
     Utils.displayModal(imgUploadModal);
+    document.querySelector('#avatar').focus();
+
     let imageUploaded = '';
 
     document.querySelector('#avatar').addEventListener('change', function () {
@@ -306,7 +305,7 @@ class View {
       <section data-id = "${list.id}">
       <header>
       <h2>${list.title}</h2>
-      <button class = 'add-task-btn'>Task</button>
+      <button class = 'add-task-btn' aria-label = 'Add Task'>Task</button>
       </header>
       </section>
       `;
@@ -324,14 +323,10 @@ class View {
       e.taskLists[i].items.forEach((item) => {
         const articleHTML = `
           <article class="task">
-              <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${
-          item.priority
-        }</p>
+              <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${item.priority}</p>
               <h3>${item.title}</h3>
               <p>${item.description}</p>
-              <p class="task__date"><time datetime="2021-08-07">${
-                item.dueDate
-              }</time></p>
+              <p class="task__date"><time datetime="2021-08-07">${item.dueDate}</time></p>
           </article>`;
         sections[i].insertAdjacentHTML("beforeend", articleHTML);
       });

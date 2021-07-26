@@ -50,6 +50,10 @@ form {
       padding: 1rem;
     }
 
+    input:focus, textarea:focus, select:focus {
+      outline: 3px solid $accent-color4;
+    }
+
     textarea {
       resize: none;
     }

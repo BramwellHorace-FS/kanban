@@ -12,7 +12,7 @@
 }
 
 #taskModal {
-  .taskModal__window {
+  #taskModal_window {
     @extend %modalWindow;
 
     h2 {
@@ -25,7 +25,7 @@
 }
 
 #imgUploadModal {
-  .imgUploadModal__window {
+  #imgUploadModal_window {
     @extend %modalWindow;
 
     h2 {
@@ -48,7 +48,7 @@
     }
   }
 
-  .colorModal__window {
+  #colorModal_window {
     @extend %modalWindow;
 
     h2 {
@@ -61,9 +61,9 @@
   }
 }
 
-#imgUploadModal__Overlay,
-#taskModal__Overlay,
-#colorModal__overlay {
+#imgUploadModal_overlay,
+#taskModal_overlay,
+#colorModal_overlay {
   @extend %modalOverlay;
 }
 

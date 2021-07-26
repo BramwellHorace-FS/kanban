@@ -13,7 +13,7 @@ class Utils {
     let previousActiveElement = document.activeElement;
 
     modal.hidden = false;
-    window.addEventListener("scroll", Utils.disableScrolling);
+    window.addEventListener("scroll", Utils.disableScrolling); // **
     modalElements.form.addEventListener("submit", (e) => {
       e.preventDefault();
     });
@@ -21,7 +21,6 @@ class Utils {
     document.querySelector("input").focus();
     enableInert();
     enableExitTriggers();
-    // onFormSubmit();
 
     /** Enable inert **/
     function enableInert() {
@@ -39,29 +38,15 @@ class Utils {
       const KEY = { ESCAPE: "Escape" };
 
       exitTriggers.forEach((trigger) => {
-        trigger.addEventListener('click', exitModal);
+        trigger.addEventListener('click', () => {
+          Utils.exitModal(modal, previousActiveElement); 
+        });
       })
 
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == KEYCODE.ESC || e.key == KEY.ESCAPE) {
-          exitModal();
+          Utils.exitModal(modal,previousActiveElement); 
         }
-      });
-    }
-
-    /** Exit Modal **/
-    function exitModal() {
-      modal.hidden = true;
-      window.removeEventListener("scroll", Utils.disableScrolling);
-      disableInert();
-      previousActiveElement.focus();
-    }
-
-    /** Disable Inert **/
-    function disableInert() {
-      const bodyChildren = Array.from(document.body.children);
-      bodyChildren.forEach((child) => {
-        if (child !== modal) child.inert = false;
       });
     }
   }
@@ -121,6 +106,7 @@ class Utils {
     }
   }
 
+
   static disableInert(modal) {
     const bodyChildren = Array.from(document.body.children);
     bodyChildren.forEach((child) => {
@@ -131,8 +117,8 @@ class Utils {
   /** Exit Modal **/
   static exitModal(modal, previousActiveElement) {
     modal.hidden = true;
-    window.removeEventListener("scroll", Utils.disableScrolling);
-    Utils.disableInert(modal);
+    window.removeEventListener("scroll", Utils.disableScrolling); // **
+    this.disableInert(modal); // **
     previousActiveElement.focus();
   }
 
