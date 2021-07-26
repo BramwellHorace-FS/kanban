@@ -9,3 +9,7 @@ For the first milestone, I began working on the project by writing the static HT
 ## Milestone 2
 
 For the second milestone, I added interactivity, connecting the static HTML and SCSS to the API with javascript.
+
+## Milestone 3
+
+For the third milestone, I began adding form validation, accessibility features and user customization. 
