@@ -124,11 +124,12 @@ class Utils {
 
       formElements.forEach((element) => {
         element.style.borderColor = '#E7E7E7';
-      })
+      });
+
+      form.reset();
     }
 
     modal.hidden = true;
-    form.reset();
     window.removeEventListener("scroll", Utils.disableScrolling); // **
     this.disableInert(modal); // **
     previousActiveElement.focus();

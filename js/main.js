@@ -156,7 +156,6 @@ class Controller {
           document.dispatchEvent(taskEvent);
 
           Utils.exitModal(modalElements.modal, previousActiveElement, modalElements.form);
-          modalElements.form.reset();
 
         } else {
           formInputsAfterValidation.forEach((input) => {
@@ -194,9 +193,7 @@ class Controller {
 
     let previousActiveElement = document.activeElement;
 
-    document
-      .querySelector("#background-color-btn")
-      .addEventListener("click", Utils.displayModal(bgColorModal));
+    document.querySelector("#background-color-btn").addEventListener("click", Utils.displayModal(bgColorModal));
     document.querySelector("#color-picker").focus();
 
     bgColorModal.submitButton.addEventListener("click", saveColor);
