@@ -39,14 +39,14 @@ class Utils {
       const KEY = { ESCAPE: "Escape" };
 
       exitTriggers.forEach((trigger) => {
-        trigger.addEventListener('click', () => {
-          Utils.exitModal(modal, previousActiveElement,form); 
+        trigger.addEventListener("click", () => {
+          Utils.exitModal(modal, previousActiveElement, form);
         });
-      })
+      });
 
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == KEYCODE.ESC || e.key == KEY.ESCAPE) {
-          Utils.exitModal(modal,previousActiveElement,form); 
+          Utils.exitModal(modal, previousActiveElement, form);
         }
       });
     }
@@ -71,6 +71,7 @@ class Utils {
     ) {
       if (!parent.querySelector(".error")) {
         parent.insertAdjacentHTML("beforeend", errorLabel);
+        target.style.borderColor = "red";
         return false;
       }
     } else {
@@ -85,6 +86,7 @@ class Utils {
   static selectValidation(e) {
     let target = e.target;
     if (target.selectedIndex == 0) {
+      target.style.borderColor = "red";
       return false;
     } else {
       target.style.borderColor = "green";
@@ -96,13 +98,13 @@ class Utils {
     let target = e.target;
 
     if (target.value == 0 || target.value == "") {
+      target.style.borderColor = "red";
       return false;
     } else {
       target.style.borderColor = "green";
       return true;
     }
   }
-
 
   static disableInert(modal) {
     const bodyChildren = Array.from(document.body.children);
@@ -113,18 +115,33 @@ class Utils {
 
   /** Exit Modal **/
   static exitModal(modal, previousActiveElement, form) {
-
-    if(form.id === 'taskModal_form') {
+    if (form.id === "taskModal_form") {
       const title = form.elements.namedItem("title");
       const description = form.elements.namedItem("description");
       const priority = form.elements.namedItem("priority");
       const date = form.elements.namedItem("date");
 
-      const formElements = [title, description,priority,date];
+      const formElements = [title, description, priority, date];
 
       formElements.forEach((element) => {
-        element.style.borderColor = '#E7E7E7';
+        element.style.borderColor = "#E7E7E7";
       });
+
+      if (title.parentElement.querySelector(".error") != null) {
+        title.parentElement.querySelector(".error").remove();
+      }
+
+      if (description.parentElement.querySelector(".error") != null) {
+        description.parentElement.querySelector(".error").remove();
+      }
+
+      if (priority.parentElement.querySelector(".error") != null) {
+        priority.parentElement.querySelector(".error").remove();
+      }
+
+      if (date.parentElement.querySelector(".error") != null) {
+        date.parentElement.querySelector(".error").remove();
+      }
 
       form.reset();
     }
@@ -135,25 +152,23 @@ class Utils {
     previousActiveElement.focus();
   }
 
-  static saveToLocalStorage(name,itemToSave){
-    localStorage.setItem(name,itemToSave);
+  static saveToLocalStorage(name, itemToSave) {
+    localStorage.setItem(name, itemToSave);
   }
 
+  static loadFromLocalStorage() {
+    const bodyElement = document.querySelector("body");
+    const userProfileImage = document.querySelector("#user-profile-img");
 
-  static loadFromLocalStorage(){
-      const bodyElement = document.querySelector('body');
-      const userProfileImage = document.querySelector('#user-profile-img');
+    const recentUserImage = localStorage.getItem("recent-avatar");
+    const recentBackgroundColor = localStorage.getItem("color");
 
-      const recentUserImage = localStorage.getItem('recent-avatar');
-      const recentBackgroundColor = localStorage.getItem('color');
+    if (recentUserImage) {
+      userProfileImage.setAttribute("src", recentUserImage);
+    }
 
-      if(recentUserImage) {
-        userProfileImage.setAttribute('src', recentUserImage);
-      }
-
-      if (recentBackgroundColor) {
-        bodyElement.style.backgroundColor = recentBackgroundColor;
-      }
+    if (recentBackgroundColor) {
+      bodyElement.style.backgroundColor = recentBackgroundColor;
+    }
   }
 }
-
