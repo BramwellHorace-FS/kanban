@@ -50,7 +50,9 @@ class Controller {
 
   addEventListeners() {
     const addTaskButton = document.querySelector("main");
-    const backgroundColorButton = document.querySelector("#background-color-btn");
+    const backgroundColorButton = document.querySelector(
+      "#background-color-btn"
+    );
     const uploadImageButton = document.querySelector("#avatar-btn");
 
     addTaskButton.addEventListener("click", (e) => this.getTaskData(e));
@@ -59,13 +61,16 @@ class Controller {
   }
 
   getTaskData(e) {
+
     let target = e.target;
     let parent = target.parentElement;
-    let sectionID = "";
     let previousActiveElement = document.activeElement;
 
-    if (target.className == "add-task-btn") {
-      sectionID = parent.parentElement.dataset.id;
+    if (target.className === "add-task-btn") {
+
+      const secIDEvent = new Event('ID_recieved');
+      secIDEvent.sectionID = parent.parentElement.dataset.id;
+      document.dispatchEvent(secIDEvent);
 
       const modalElements = {
         modal: document.querySelector("#taskModal"),
@@ -77,155 +82,175 @@ class Controller {
       };
 
       Utils.displayModal(modalElements);
-    
-      const title = modalElements.form.elements.namedItem('title');
-      const description = modalElements.form.elements.namedItem('description');
-      const priority = modalElements.form.elements.namedItem('priority');
-      const date = modalElements.form.elements.namedItem('date');
+
+      const title = modalElements.form.elements.namedItem("title");
+      const description = modalElements.form.elements.namedItem("description");
+      const priority = modalElements.form.elements.namedItem("priority");
+      const date = modalElements.form.elements.namedItem("date");
 
       const inputValidity = {
         titleIsValid: false,
         descriptionIsValid: false,
         priorityIsValid: false,
         dateIsValid: false,
-      }
+      };
 
-      title.addEventListener('input', (e) => {
+      title.addEventListener("input", (e) => {
         let valid = Utils.inputValidation(e);
-        inputValidity.titleIsValid = checkValidity(valid, inputValidity.titleIsValid);
+        inputValidity.titleIsValid = checkValidity(
+          valid,
+          inputValidity.titleIsValid
+        );
       });
 
-      description.addEventListener('input', e => {
+      description.addEventListener("input", (e) => {
         let valid = Utils.inputValidation(e);
-        inputValidity.descriptionIsValid = checkValidity(valid, inputValidity.descriptionIsValid);
+        inputValidity.descriptionIsValid = checkValidity(
+          valid,
+          inputValidity.descriptionIsValid
+        );
       });
 
-      priority.addEventListener('change', e => {
+      priority.addEventListener("change", (e) => {
         let valid = Utils.selectValidation(e);
-        inputValidity.priorityIsValid = checkValidity(valid, inputValidity.priorityIsValid);
+        inputValidity.priorityIsValid = checkValidity(
+          valid,
+          inputValidity.priorityIsValid
+        );
       });
 
-      date.addEventListener('change', e => {
+      date.addEventListener("change", (e) => {
         let valid = Utils.dateValidation(e);
-        inputValidity.dateIsValid = checkValidity(valid, inputValidity.dateIsValid);
+        inputValidity.dateIsValid = checkValidity(
+          valid,
+          inputValidity.dateIsValid
+        );
       });
 
+     
+      document.querySelector('#submitButton').addEventListener("click", e => {
+        e.preventDefault();
 
-  
-      // ** Submit
-
-      modalElements.submitButton.addEventListener('click', () => {
-        
+         // ** Submit
         let formInputsAfterValidation = [
-          {input: title, isValid: inputValidity.titleIsValid},
-          {input: description, isValid: inputValidity.descriptionIsValid },
-          {input: priority, isValid: inputValidity.priorityIsValid},
-          {input: date, isValid: inputValidity.dateIsValid}
-        ]
+        { input: title, isValid: inputValidity.titleIsValid },
+        { input: description, isValid: inputValidity.descriptionIsValid },
+        { input: priority, isValid: inputValidity.priorityIsValid },
+        { input: date, isValid: inputValidity.dateIsValid },
+        ];
 
         let inputsAreValid = formInputsAfterValidation.every((e) => {
-          return e.isValid === true;
+        return e.isValid === true;
         });
+   
+        if (inputsAreValid === true) {
 
-        if (inputsAreValid) {
           const taskItem = new TaskItem();
           taskItem.title = title.value.trim();
           taskItem.description = description.value.trim();
           taskItem.priority = priority.value.trim();
           taskItem.date = date.value.trim();
 
-          Utils.exitModal(modalElements.modal, previousActiveElement);
-
-          const taskEvent = new Event('task_created');
+          const taskEvent = new Event("task_created");
           taskEvent.taskItem = taskItem;
-          taskEvent.listID = sectionID;
           document.dispatchEvent(taskEvent);
 
-        }else {
+          Utils.exitModal(modalElements.modal, previousActiveElement, modalElements.form);
+          modalElements.form.reset();
+
+        } else {
           formInputsAfterValidation.forEach((input) => {
-            if(input.isValid == false) {
-              input.input.style.borderColor = 'red';
-            }else {
-              input.input.style.borderColor = ' greeen';
+            if (input.isValid == false) {
+              input.input.style.borderColor = "red";
             }
-          })
+          });
         }
       });
 
-
       function checkValidity(value, input) {
-        if(value === true) {
+        if (value === true) {
           input = true;
         } else if (value === false) {
           input = false;
         }
         return input;
       }
-
     }
   }
 
   getBackgroundColor() {
     const bgColorModal = {
-      modal: document.querySelector('#colorModal'),
-      modalOverlay: document.querySelector('#colorModal_overlay'),
-      closeButton: document.querySelector('#closeButton3'),
-      cancelButton: document.querySelector('#cancelButton3'),
-      submitButton: document.querySelector('#okButton'),
-      form: document.querySelector('#colorModal_form'),
-    }
+      modal: document.querySelector("#colorModal"),
+      modalOverlay: document.querySelector("#colorModal_overlay"),
+      closeButton: document.querySelector("#closeButton3"),
+      cancelButton: document.querySelector("#cancelButton3"),
+      submitButton: document.querySelector("#okButton"),
+      form: document.querySelector("#colorModal_form"),
+    };
 
-    bgColorModal.form.addEventListener('submit', e => {
+    bgColorModal.form.addEventListener("submit", (e) => {
       e.preventDefault();
-    })
+    });
 
     let previousActiveElement = document.activeElement;
 
-    document.querySelector('#background-color-btn').addEventListener('click', Utils.displayModal(bgColorModal));
-    document.querySelector('#color-picker').focus();
+    document
+      .querySelector("#background-color-btn")
+      .addEventListener("click", Utils.displayModal(bgColorModal));
+    document.querySelector("#color-picker").focus();
 
-    bgColorModal.submitButton.addEventListener('click', saveColor);
+    bgColorModal.submitButton.addEventListener("click", saveColor);
 
-    function saveColor () {
-      const bgColor = document.querySelector('#color-picker').value;
-      document.querySelector('body').style.backgroundColor = bgColor;
-      Utils.saveToLocalStorage('color', bgColor);
-      Utils.exitModal(bgColorModal.modal, previousActiveElement);
+    function saveColor() {
+      const bgColor = document.querySelector("#color-picker").value;
+      document.querySelector("body").style.backgroundColor = bgColor;
+      Utils.saveToLocalStorage("color", bgColor);
+      Utils.exitModal(
+        bgColorModal.modal,
+        previousActiveElement,
+        bgColorModal.form
+      );
     }
   }
 
   getUserImage() {
     const imgUploadModal = {
-      modal: document.querySelector('#imgUploadModal'),
-      modalOverlay: document.querySelector('#imgUploadModal_overlay'),
-      closeButton: document.querySelector('#closeButton2'),
-      cancelButton: document.querySelector('#cancelUploadButton'),
-      submitButton: document.querySelector('#uploadButton'),
-      form: document.querySelector('#imgUploadModal_form'),
-    }
+      modal: document.querySelector("#imgUploadModal"),
+      modalOverlay: document.querySelector("#imgUploadModal_overlay"),
+      closeButton: document.querySelector("#closeButton2"),
+      cancelButton: document.querySelector("#cancelUploadButton"),
+      submitButton: document.querySelector("#uploadButton"),
+      form: document.querySelector("#imgUploadModal_form"),
+    };
 
     let previousActiveElement = document.activeElement;
 
     Utils.displayModal(imgUploadModal);
-    document.querySelector('#avatar').focus();
+    document.querySelector("#avatar").focus();
 
-    let imageUploaded = '';
+    let imageUploaded = "";
 
-    document.querySelector('#avatar').addEventListener('change', function () {
-       const reader = new FileReader();
+    document.querySelector("#avatar").addEventListener("change", function () {
+      const reader = new FileReader();
 
-       reader.addEventListener('load', () => {
-          imageUploaded = reader.result;
-       });
-       reader.readAsDataURL(this.files[0]);
+      reader.addEventListener("load", () => {
+        imageUploaded = reader.result;
+      });
+      reader.readAsDataURL(this.files[0]);
     });
 
-    imgUploadModal.submitButton.addEventListener('click', () => { 
-        if(imageUploaded != ''){
-            Utils.saveToLocalStorage('recent-avatar', imageUploaded);
-            document.querySelector('#user-profile-img').setAttribute('src', imageUploaded);
-        }
-        Utils.exitModal(imgUploadModal.modal, previousActiveElement);
+    imgUploadModal.submitButton.addEventListener("click", () => {
+      if (imageUploaded != "") {
+        Utils.saveToLocalStorage("recent-avatar", imageUploaded);
+        document
+          .querySelector("#user-profile-img")
+          .setAttribute("src", imageUploaded);
+      }
+      Utils.exitModal(
+        imgUploadModal.modal,
+        previousActiveElement,
+        imgUploadModal.form
+      );
     });
   }
 }
@@ -233,17 +258,24 @@ class Controller {
 class Model {
   constructor() {
     console.log("model created");
-    document.addEventListener('task_created', e => this.postTask(e));
+    document.addEventListener("task_created", (e) => this.postTask(e));
+    document.addEventListener('ID_recieved', (e) => this.setSection(e));
+    this.sectionID;
   }
 
-  postTask(e){
+  setSection(e) {
+    this.sectionID = e.sectionID;
+  }
+
+  postTask(e) {
+
     const PROJECT_TITLE = "sturdy-torpid-throat";
     const ACCESS_TOKEN = "5b1064585f4ab8706d275f90";
     const URL = `https://${PROJECT_TITLE}.glitch.me/api/items?accessToken=${ACCESS_TOKEN}`;
 
     const taskToSend = {
       title: e.taskItem.title,
-      listId: e.listID,
+      listId: this.sectionID,
       description: e.taskItem.description,
       priority: e.taskItem.priority,
       dueDate: e.taskItem.date,
@@ -255,26 +287,25 @@ class Model {
       headers: {
         "content-type": "application/json",
       },
-    }
+    };
 
     fetch(URL, config)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw response;
-        })
-        .then((responseAsJson) => {
-          console.log(responseAsJson);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((responseAsJson) => {
+        console.log(responseAsJson);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    const postEvent = new Event('task_posted');
+    const postEvent = new Event("task_posted");
     postEvent.taskItem = e.taskItem;
-    postEvent.sectionID = e.listID;
+    postEvent.sectionID = this.sectionID;
     document.dispatchEvent(postEvent);
   }
 }
@@ -283,11 +314,11 @@ class View {
   constructor() {
     console.log("view created");
     document.addEventListener("task_loaded", (e) => this.display(e));
-    document.addEventListener('task_posted', (e) => this.addTaskToSection(e));
+    document.addEventListener("task_posted", (e) => this.addTaskToSection(e));
   }
 
   addTaskToSection(e) {
-    const sections = document.querySelectorAll('section');
+    const sections = document.querySelectorAll("section");
     const articleHTML = `
     <article class="task">
         <p class="task__priority" data-priority="${e.taskItem.priority.toLowerCase()}">${e.taskItem.priority}</p>
@@ -296,7 +327,8 @@ class View {
         <p class="task__date"><time datetime="2021-08-07">${e.taskItem.date}</time></p>
       </article>
     `;
-    sections[e.sectionID-1].querySelector('header').insertAdjacentHTML('afterend', articleHTML);
+
+    sections[e.sectionID - 1].querySelector("header").insertAdjacentHTML("afterend", articleHTML);
   }
 
   display(e) {
@@ -310,7 +342,9 @@ class View {
       </section>
       `;
 
-      document.querySelector("main").insertAdjacentHTML("beforeend", sectionHTML);
+      document
+        .querySelector("main")
+        .insertAdjacentHTML("beforeend", sectionHTML);
     });
 
     const sections = document.querySelectorAll("section");
@@ -323,10 +357,14 @@ class View {
       e.taskLists[i].items.forEach((item) => {
         const articleHTML = `
           <article class="task">
-              <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${item.priority}</p>
+              <p class="task__priority" data-priority="${item.priority.toLowerCase()}">${
+          item.priority
+        }</p>
               <h3>${item.title}</h3>
               <p>${item.description}</p>
-              <p class="task__date"><time datetime="2021-08-07">${item.dueDate}</time></p>
+              <p class="task__date"><time datetime="2021-08-07">${
+                item.dueDate
+              }</time></p>
           </article>`;
         sections[i].insertAdjacentHTML("beforeend", articleHTML);
       });

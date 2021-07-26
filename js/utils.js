@@ -11,6 +11,7 @@ class Utils {
     let modalOverlay = modalElements.modalOverlay;
     let cancelButton = modalElements.cancelButton;
     let previousActiveElement = document.activeElement;
+    let form = modalElements.form;
 
     modal.hidden = false;
     window.addEventListener("scroll", Utils.disableScrolling); // **
@@ -39,13 +40,13 @@ class Utils {
 
       exitTriggers.forEach((trigger) => {
         trigger.addEventListener('click', () => {
-          Utils.exitModal(modal, previousActiveElement); 
+          Utils.exitModal(modal, previousActiveElement,form); 
         });
       })
 
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == KEYCODE.ESC || e.key == KEY.ESCAPE) {
-          Utils.exitModal(modal,previousActiveElement); 
+          Utils.exitModal(modal,previousActiveElement,form); 
         }
       });
     }
@@ -70,7 +71,6 @@ class Utils {
     ) {
       if (!parent.querySelector(".error")) {
         parent.insertAdjacentHTML("beforeend", errorLabel);
-        target.style.borderColor = "red";
         return false;
       }
     } else {
@@ -84,9 +84,7 @@ class Utils {
 
   static selectValidation(e) {
     let target = e.target;
-
     if (target.selectedIndex == 0) {
-      target.style.borderColor = "red";
       return false;
     } else {
       target.style.borderColor = "green";
@@ -98,7 +96,6 @@ class Utils {
     let target = e.target;
 
     if (target.value == 0 || target.value == "") {
-      target.style.borderColor = "red";
       return false;
     } else {
       target.style.borderColor = "green";
@@ -115,13 +112,27 @@ class Utils {
   }
 
   /** Exit Modal **/
-  static exitModal(modal, previousActiveElement) {
+  static exitModal(modal, previousActiveElement, form) {
+
+    if(form.id === 'taskModal_form') {
+      const title = form.elements.namedItem("title");
+      const description = form.elements.namedItem("description");
+      const priority = form.elements.namedItem("priority");
+      const date = form.elements.namedItem("date");
+
+      const formElements = [title, description,priority,date];
+
+      formElements.forEach((element) => {
+        element.style.borderColor = '#E7E7E7';
+      })
+    }
+
     modal.hidden = true;
+    form.reset();
     window.removeEventListener("scroll", Utils.disableScrolling); // **
     this.disableInert(modal); // **
     previousActiveElement.focus();
   }
-
 
   static saveToLocalStorage(name,itemToSave){
     localStorage.setItem(name,itemToSave);
