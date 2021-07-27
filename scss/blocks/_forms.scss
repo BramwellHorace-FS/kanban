@@ -1,0 +1,84 @@
+form {
+  background: $base-light;
+  border-radius: 0.5rem;
+  // border: 1px solid $accent-color4;
+  max-width: 100%;
+
+  h2 {
+    color: $base-light;
+    background: $accent-color4;
+    font-weight: $medium-weight;
+    border-bottom: 1px solid $accent-dark3;
+    padding: 2rem 4rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  fieldset {
+    padding: 2rem;
+    position: relative;
+    border: 0;
+    clear: both;
+
+    label {
+      display: inline-block;
+      margin: 0 0 0.5rem;
+    }
+
+    .required::after {
+      content:" *";
+      color: $error;
+    }
+
+    .error {
+      font-size: 1.4rem;
+      margin-top: 0.5rem;
+      color: $error;
+    }
+
+    .success {
+      @extend .error;
+      color: $success;
+    }
+
+    input,
+    textarea,
+    select {
+      border: 0.2rem solid $accent-light2;
+      border-radius: 0.4rem;
+      display: block;
+      width: 100%;
+      padding: 1rem;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: 3px solid $accent-color4;
+    }
+
+    textarea {
+      resize: none;
+    }
+  }
+
+  button {
+    @include btn-theme($accent-color4, $base-light);
+    background-image: none;
+    text-indent: 0;
+    width: calc(50% - 4rem);
+    display: block;
+    float: left;
+    margin: 2rem;
+  }
+}
+
+#img-upload-dialog__form {
+  button {
+    width: calc(42% - 0.5rem);
+  }
+
+  fieldset {
+    label {
+      font-size: 1.4rem;
+      padding: 0 0 1rem;
+    }
+  }
+}

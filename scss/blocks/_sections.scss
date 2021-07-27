@@ -1,45 +1,67 @@
 section {
-
-    @include border(0.2rem solid $primary-black, 0.2rem solid $primary-black, 0.2rem solid $primary-black, 0.2rem solid $primary-black);
     height: fit-content;
+    border-radius: 0.5rem;
+    background: $task-background;
 
     // header
     header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1.5rem 2.5rem;
-        @include border(0, 0, 0.2rem solid #000, 0);
-        @include bradius(0.5rem,0.5rem,0,0);
+        padding: 1.5rem;
+        background: $base-light;
+        border-radius: 0.5rem 0.5rem 0 0;
+
+        h2 {
+            font-family: $base-heading;
+            font-size: 2rem;
+            font-weight: $medium-weight;
+
+            @media (min-width: 600px) {
+                font-size: 2.4rem;
+            }
+        }
     }
 
     &:nth-of-type(1) {
-        background-color: $secondary-purple;
-        @include bradius(0.5rem, 0.5rem, 0.5rem, 0.5rem);
 
-        header {
-            background:$primary-purple;
-            color: $primary-white;
+        border: 1px solid $accent-border1;
+
+        h3 {
+            color: $accent-color1;
         }
     }
 
     &:nth-of-type(2) {
-        background-color: $secondary-blue;
-        @include bradius(0.5rem, 0.5rem, 0.5rem, 0.5rem);
+
+        border: 1px solid $accent-border2;
+
+
+        h3 {
+            color: $accent-color2;
+        }
 
         header {
-            background-color: $primary-blue;
-            color: $primary-white;
+           
+            button {
+                @include btn-theme ($accent-color2, $base-light); 
+            }
         }
     }
 
     &:nth-of-type(3) {
-        background-color: $secondary-pink;
-        @include bradius(0.5rem, 0.5rem, 0.5rem, 0.5rem);
 
+        border: 1px solid $accent-border3;
+
+        h3 {
+            color: $accent-color3;
+        }
+        
         header {
-            background-color: $primary-pink;
-            color: $primary-white;
+            
+            button {
+                @include btn-theme ($accent-color3, $base-light); 
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 // Utilities
 @import 'utils/variables';
-@import 'utils/mixins';
 @import 'utils/placeholder';
+@import 'utils/mixins';
 
 // Base
 @import 'base/reset';
@@ -17,4 +17,6 @@
 // Blocks 
 @import 'blocks/sections';
 @import 'blocks/articles';
+@import 'blocks/modal';
+@import 'blocks/forms';
 

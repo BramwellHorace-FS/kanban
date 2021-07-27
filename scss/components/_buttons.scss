@@ -1,13 +1,26 @@
 // buttons
 button {
-    @include btn-theme($primary-black, $add-icon);
+    @include btn-theme($accent-color1, $base-light);
 
     &:hover {
-        background-color: $secondary-black;
+        opacity: 0.8;
         cursor: pointer;
     }
+}
 
-    @media (min-width: 600px) {
-        font-size: 1.6rem;
+#background-color-btn {
+    background: $accent-color4 no-repeat 1.5rem/50% url(../images/color.png);
+    position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px $accent-color1;
+    
+    p {
+        text-indent: -9999px;
     }
+
 }

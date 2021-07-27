@@ -1,16 +1,18 @@
 main {
     display: grid;
     row-gap: 5rem;
-    max-width: 85%;
-    @extend %center;
+    width: 85%;
+    margin: 0 auto 10rem;
 
     @media (min-width: 830px) {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 5rem;
+        grid-template-columns: repeat(2,1fr);
+        column-gap: 4rem;
+        width: 90%;
     }
 
     @media (min-width: 1335px) {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3,1fr);
         column-gap: 5rem;
+        width: 85%;
     }
 }

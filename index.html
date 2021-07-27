@@ -8,51 +8,94 @@
     <title>Task Manager</title>
 </head>
 <body>
-    <header id="site-header">
-        <div>
-            <h1>Task Manager</h1>
-            <img src="images/headshot.jpg" alt="User profile image">
-        </div>
+    <header>
+        <h1>Task Manager</h1>
+        <button id="avatar-btn" aria-label = "Change User Image"><img src="images/headshot.jpg" alt="User profile image" id="user-profile-img"></a></button>
     </header>
-        <main>
-            <section>
-                 <header>
-                     <h2>Backlog</h2>
-                    <button type="button">Add Task</button>
-                    </header>
-                    <article>
-                        <p class = "task__priority medium">Med Level</p>
-                        <h3>Research API Usage</h3>
-                        <p>Read over API documentation and plan CRUD actions.</p>
-                        <p class="task__date">07/08/2021</p> 
-                    </article>
-            </section>
-            <section>
-                 <header>
-                     <h2>Implementation</h2>
-                    <button type="button">Add Task</button>
-                    </header>
-                    <article>
-                        <p class = "task__priority low">Low Level</p>
-                        <h3>Task Title</h3>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, totam?</p>
-                        <p class="task__date">07/08/2021</p> 
-                    </article>
-            </section>
-            <section>
-                 <header>
-                     <h2>Complete</h2>
-                    <button type="button">Add Task</button>
-                    </header>
-                    <article>
-                        <p class = "task__priority high">High Level</p>
-                        <h3>Task Title</h3>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi, totam?</p>
-                        <p class="task__date">07/08/2021</p> 
-                    </article>
-            </section>
-        </main>
-    </header>
+    <main></main>
+
+    <!-- Add Task Modal -->
+    <div id="taskModal" role="dialog" aria-labelledby="taskModal_title" hidden>
+      <div id="taskModal_window">
+        <h2 id="taskModal_title">Add Task</h2>
+        <form id="taskModal_form" action="/" method="POST">
+          <fieldset>
+            <label for = "title">Title</label>
+            <input type="text" name="Title" id="title" placeholder="Enter Task Ttile">
+          </fieldset>
+          <fieldset>
+            <label for="description">Description</label>
+            <textarea name="Description" id="description" cols="50" rows="5" placeholder="Enter task description"></textarea>
+          </fieldset>
+          <fieldset>
+            <label for="priority">Piority</label>
+            <select id="priority" name="Priority">
+              <option value="Select">Select</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <label for="date">Due Date</label>
+            <input type="date" id="date" name="Date">
+          </fieldset>
+          <button id = "submitButton" type = "submit">Submit</button>
+          <button id = "cancelButton" title="Cancel adding task">Cancel</button>
+        </form>
+        <button id="closeButton" aria-label="Close add task form">X</button>
+      </div>
+      <div id="taskModal_overlay"></div>
+    </div>
+
+ 
+    <!-- Image upload dialog -->
+    <div id="imgUploadModal" role="dialog" aria-labelledby="imgUploadModal_title" hidden>
+      <div id="imgUploadModal_window">
+          <h2 id="imgUploadModal_title">Change Profile Image</h2>
+          <form id="imgUploadModal_form" action="/">
+            <fieldset>
+              <label for = "avatar">Upload new avatar</label>
+              <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+            </fieldset>
+            <button id = "uploadButton" type = "submit">Upload</button>
+            <button id = "cancelUploadButton">Cancel</button>
+          </form>
+          <button id="closeButton2" aria-label="Close image upload form">X</button>
+      </div>
+      <div id="imgUploadModal_overlay"></div>
+    </div>
+
+
+    <!-- Test modal -->
+    <div id="colorModal" role="dialog" aria-labelledby="colorModal_title" hidden>
+      <div id="colorModal_window">
+        <h2 id="colorModal_title">Choose Background Color</h2>
+        <form action="/" id="colorModal_form">
+          <fieldset>
+            <label for="color-picker">Select a color</label>
+            <input type="color" name="color-picker" id="color-picker">
+          </fieldset>
+          <button id="okButton">Ok</button>
+          <button id="cancelButton3">Cancel</button>
+        </form>
+        <button id="closeButton3" aria-label="Close color picker">X</button>
+      </div>
+      <div id="colorModal_overlay"></div>
+    </div>
+
+
+    <button id="background-color-btn">
+      <p>Change background color</p>
+    </button>
+
+    <!-- js files -->
+    <script src="js/inert.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/task.js"></script>
+    <script defer src="js/main.js"></script>
 </body>
 </html>
+
+
 

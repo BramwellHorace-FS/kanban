@@ -1,31 +1,52 @@
-#site-header {
-    display: block;
-    max-width: 100%;
-    background: $primary-black;
-    color: $primary-white;
-    padding: 3rem 0;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $base-light;
+    color: $base-dark;
     margin: 0 0 4.5rem;
+    padding: 2.5% 7.5%;
+    border-bottom: 1px solid $accent-light1;
 
-    @media (min-width: 600px) {
-        margin: 0 0 7rem;
+    @media (min-width: 830px) {
+        padding: 1% 5%;
     }
 
-    // header__div
-    div {
-        max-width: 85%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        @extend %center;
+    @media (min-width: 1335px) {
+        padding: 1% 7.5%;
+    }
+
+    h1 {
+        font-family: $base-heading;
+        font-weight: $medium-weight;
+        font-size: 2.4rem;
+        color: $accent-dark3;
+    }
+
+    #avatar-btn {
+        text-indent: 0;
+        background-color: transparent;
+        background-image: none;
+        display: block;
+        padding: 0;
+        margin: 0;
+        width: 5.5rem;
+        height: 5.5rem;
+        border: 0.2rem solid $accent-border1;
+        border-radius: 50%;
+        box-shadow: 0 0.1rem 0.2rem 0.1rem $accent-dark2;
+        overflow: hidden;
+
+        @media (min-width: 830px) {
+            width: 6.5rem;
+            height: 6.5rem;
+        }
 
         img {
-            max-width: 5rem;
-            border: 2px solid $primary-background;
-            @include bradius(50%,50%,50%,50%);
-
-            @media (min-width: 600px) {
-                max-width: 6rem;
-            }
+            width: 100%;
+            height: -webkit-fill-available
         }
     }
+
+    
 }
